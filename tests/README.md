@@ -10,7 +10,7 @@ server which specifies HTTP responses for given HTTP requests.
 
 * [pytest](http://pytest.org) (test runner)
 * [pytest_splinter](https://pypi.python.org/pypi/pytest-splinter) (test fixtures/configuration for the splinter browser)
-* [splinter](http://phantomjs.org/build.html) (test browser based on webdriver)
+* [splinter](http://splinter.cobrateam.info/docs) (test browser based on webdriver)
 * [webdriver](http://docs.seleniumhq.org) (browser automation)
 * [requests](http://docs.python-requests.org) (library for http requests)
 
@@ -51,11 +51,11 @@ You can start the example mock server with:
 ### Run frontend acceptance tests
 
 ```shell
-   bin/py.test tests-api-services
+   bin/py.test tests-acceptance-frontend
 ```
 
 ### Run api tests
 
 ```shell
-   bin/py.test tests-acceptance-frontend
+   bin/py.test tests-api-services
 ```
