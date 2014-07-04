@@ -1,0 +1,4 @@
+*.pyc
+include/
+lib/
+share/
