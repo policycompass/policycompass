@@ -1,0 +1,6 @@
+[submodule "policycompass-services"]
+	path = policycompass-services
+	url = git@github.com:policycompass/policycompass-services.git
+[submodule "policycompass-frontend"]
+	path = policycompass-frontend
+	url = git@github.com:policycompass/policycompass-frontend.git
