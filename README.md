@@ -26,8 +26,7 @@ This requires an github.com account with [ssh keys](https://help.github.com/arti
 Create Python Virtualenv and update pip:
 
 ```shell
-)   virtualenv .
-    bin/pip install --upgrade pip
+   pyvenv-3.4 .
 ```
 
 Read the README files in the project directories (./policycompass-*).
