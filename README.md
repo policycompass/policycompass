@@ -19,6 +19,7 @@ This requires an github.com account with [ssh keys](https://help.github.com/arti
     git clone git@github.com:policycompass/policycompass.git
     cd policycompass
     git submodule init
+    git submodule update --recursive
     git submodule foreach --recursive git checkout master
 ```shell
 
