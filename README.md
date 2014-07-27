@@ -1,27 +1,29 @@
 # Policy Compass
 
-Install the policy compass web application and all dependency services for development.
+Install the policy compass web application and all dependent services for development.
 
 ## Installation
 
-requires:
+Requirements:
 
-  * Linux/Mac 64bit system (the policycompass_adhocracy service needs 64bit)
-  * build-essential tools 
-  * git
-  * python3.4 (optional for automatic installation)
+* Linux/Mac 64bit system (the policycompass_adhocracy service needs 64bit)
+* git
+* curl
+* make
+* bash
+* python3.4 (optional for automatic installation)
+
 
 ### Checkout repositories:
 
 This requires an github.com account with [ssh keys](https://help.github.com/articles/generating-ssh-keys).
 
-```shell
     git clone git@github.com:policycompass/policycompass.git
     cd policycompass
     git submodule init
     git submodule update --recursive
     git submodule foreach --recursive git checkout master
-```shell
+
 
 ### Automatic installation with the [nix](http://nixos.org/nix/) package manager:
 
@@ -36,34 +38,31 @@ Start shell environment with all development tools:
 
 All dependency services are now ready to work with (WORK IN PROGRESS).
 
-Optional: lock this nix environment and make a covenience link:
+Optional: lock this nix environment and make a convenience link:
 
-  nix-env -iA policycompass-env -f dev.nix -p /nix/var/nix/gcroots/profiles/per-user/policycompass
-  ln -sf /nix/var/nix/gcroots/profiles/per-user/policycompass/bin/load-env-policycompass ~/.
+    nix-env -iA policycompass-env -f dev.nix -p /nix/var/nix/gcroots/profiles/per-user/policycompass
+    ln -sf /nix/var/nix/gcroots/profiles/per-user/policycompass/bin/load-env-policycompass ~/.
 
-Optional: Start all services an mock services with [supervisor](http://supervisord.org/):
+Optional: Start all services and mock services with [supervisor](http://supervisord.org/):
 
-   (WORK IN PROGRESS)
+    WORK IN PROGRESS
    
 
 ### Manual installation:
 
-install basic requirements:
+Install basic requirements:
 
-    * [python3.4](python.org)
-    * firefox (default setting for browser acceptance tests)
+* [python3.4](https://python.org)
+* firefox (default setting for browser acceptance tests)
 
-create Python virtualenv:
+Create Python virtualenv:
 
-```shell
-   pyvenv-3.4 .
-```
+    pyvenv-3.4 .
 
-install test runner:
 
-```shell
-	bin/pip3.4 install -r requirements.txt
-```
+Install test runner:
+
+    bin/pip3.4 install -r requirements.txt
 
 Read the README files in the subproject directories (./policycompass-*).
 
@@ -76,6 +75,7 @@ functional tests/specification that show how to use a service.
 To ease distributed development every service API has a mock HTTP
 server which specifies HTTP responses for given HTTP requests.
 
+
 ### Software Stack
 
 * [pytest](http://pytest.org) (test runner)
@@ -84,23 +84,23 @@ server which specifies HTTP responses for given HTTP requests.
 * [webdriver](http://docs.seleniumhq.org) (browser automation)
 * [requests](http://docs.python-requests.org) (library for http requests)
 
-### api mock servers
+
+### API mock servers
 
 You can start the example mock server with:
 
-```shell
     bin/python tests-mock-services/example-service.py
-    wget localhost:9900/test/value
-```
+    
+Test that it is working correctly:
+
+    wget http://localhost:9900/test/value
+
 
 ### Run frontend acceptance tests
 
-```shell
-   bin/py.test tests-acceptance-frontend
-```
+    bin/py.test tests-acceptance-frontend
 
-### Run api tests
 
-```shell
-   bin/py.test tests-api-services
-`
+### Run API tests
+
+    bin/py.test tests-api-services
