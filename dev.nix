@@ -13,7 +13,7 @@ rec {
     name = "policycompass";
     buildInputs = with pkgs; [ policycompass ];
     extraCmds = 
-        "export PYTHONHOME=${python34env}; export PATH=$PATH:${nodejs}/bin;"
+        "export PYTHONHOME=${python34env}; export PATH=$PATH:${nodejs-env}/bin;"
     ;
   };
 
@@ -63,6 +63,13 @@ rec {
     name = "tests";
     paths = [
         phantomjs
+        ];
+  };
+
+  nodejs-env = buildEnv {
+    name = "nodejs-env";
+    paths = [
+        nodejs
         ];
   };
 

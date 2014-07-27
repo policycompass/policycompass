@@ -33,13 +33,6 @@ Start shell environment with all development tools:
 
     nix/env/bin/load-env-policycompass
 
-Install bower dependencies:
-
-    
-    cd policycompass_frontend
-    node_modules/bower/bin/bower install
-    cd ..
-
 All dependency services are now ready to work with (WORK IN PROGRESS).
 
 Optional: lock this nix environment and make a covenience link:
