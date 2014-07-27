@@ -23,9 +23,19 @@ rec {
     paths = [
         python34env
         supervisordev34
+        devtools
         policycompass_service
         policycompass_adhocracy
         policycompass_frontend
+        tests
+        ];
+  };
+
+  devtools = buildEnv {
+    name = "devtools";
+    paths = [
+        git 
+        gitAndTools.tig
         ];
   };
 
@@ -49,16 +59,23 @@ rec {
         ];
   };
 
+  tests = buildEnv {
+    name = "tests";
+    paths = [
+        phantomjs
+        ];
+  };
+
   python34env = buildEnv { 
     name = "Python34Env";
     paths = [
-        git
         libxml2
         libxslt
         libzip
         python34
         python34Packages.recursivePthLoader
         python34Packages.virtualenv
+        python34Packages.pillow
         sqlite
         stdenv
         zlib
