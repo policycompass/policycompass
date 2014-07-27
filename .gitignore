@@ -5,5 +5,5 @@ share/
 local/
 lib64
 pyvenv.cfg
-result
-result-2
+nix/
+cache/downloads
