@@ -13,7 +13,7 @@ rec {
     name = "policycompass";
     buildInputs = with pkgs; [ policycompass ];
     extraCmds = 
-        "export PYTHONHOME=${python34}"
+        "export PYTHONHOME=${python34env}"
     ;
   };
 
@@ -56,6 +56,7 @@ rec {
     name = "policycompass_frontend";
     paths = [
         nodejs
+        nodePackages.bower
         ];
   };
 
@@ -76,6 +77,8 @@ rec {
         python34Packages.recursivePthLoader
         python34Packages.virtualenv
         python34Packages.pillow
+        python34Packages.flake8
+        python34Packages.ipdb
         sqlite
         stdenv
         zlib

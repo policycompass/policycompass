@@ -1,16 +1,17 @@
 # Policy Compass
 
-Install the policy compass web application and all dependency services.
-
-## Requires
-
-* [python3.4](python.org)
-* [virtualenv >= 1.11](https://virtualenv.pypa.io/en/latest/virtualenv.html#installation)
-* firefox (default setting for browser tests)
+Install the policy compass web application and all dependency services for development.
 
 ## Installation
 
-### checkout the project/sub projects repositories:
+requires:
+
+  * Linux/Mac 64bit system (the policycompass_adhocracy service needs 64bit)
+  * build-essential tools 
+  * git
+  * python3.4 (optional for automatic installation)
+
+### Checkout repositories:
 
 This requires an github.com account with [ssh keys](https://help.github.com/articles/generating-ssh-keys).
 
@@ -21,34 +22,49 @@ This requires an github.com account with [ssh keys](https://help.github.com/arti
     git submodule foreach --recursive git checkout master
 ```shell
 
-### manual installation:
-
-Create Python Virtualenv and update pip:
-
-```shell
-   pyvenv-3.4 .
-```
-
-Read the README files in the project directories (./policycompass-*).
-
-### automatic install with nix package manager:
+### Automatic installation with the [nix](http://nixos.org/nix/) package manager:
 
 Install nix:
 
     bash <(curl https://nixos.org/nix/install)
     make
 
-Source environment file:
+Sart shell environment with all development tools:
 
-    source result/bin/load-env-policycompass
+    nix/env/bin/load-env-policycompass
 
-Optional: lock this nix environment:
+All dependency services are now ready to work with (WORK IN PROGRESS).
+
+Optional: lock this nix environment and make a covenience link:
 
   nix-env -iA policycompass-env -f dev.nix -p /nix/var/nix/gcroots/profiles/per-user/policycompass
-
-Optional: make a convenience link:
-
   ln -sf /nix/var/nix/gcroots/profiles/per-user/policycompass/bin/load-env-policycompass ~/.
+
+Optional: Start all services an mock services with [supervisor](http://supervisord.org/):
+
+   (WORK IN PROGRESS)
+   
+
+### Manual installation:
+
+install basic requirements:
+
+    * [python3.4](python.org)
+    * firefox (default setting for browser acceptance tests)
+
+create Python virtualenv:
+
+```shell
+   pyvenv-3.4 .
+```
+
+install test runner:
+
+```shell
+	bin/pip3.4 install -r requirements.txt
+```
+
+Read the README files in the subproject directories (./policycompass-*).
 
 
 ## Testing
@@ -66,14 +82,6 @@ server which specifies HTTP responses for given HTTP requests.
 * [splinter](http://splinter.cobrateam.info/docs) (test browser based on webdriver)
 * [webdriver](http://docs.seleniumhq.org) (browser automation)
 * [requests](http://docs.python-requests.org) (library for http requests)
-
-### Installation
-
-Install test runner:
-
-```shell
-	bin/pip install -r requirements.txt
-```
 
 ### api mock servers
 
