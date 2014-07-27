@@ -21,9 +21,28 @@ This requires an github.com account with [ssh keys](https://help.github.com/arti
     git submodule foreach --recursive git checkout master
 ```shell
 
-### install sub projects:
+### manual installation:
+
+Create Python Virtualenv and update pip:
+
+```shell
+)   virtualenv .
+    bin/pip install --upgrade pip
+```
 
 Read the README files in the project directories (./policycompass-*).
+
+### automatic install with nix package manager:
+
+Install nix:
+
+    bash <(curl https://nixos.org/nix/install)
+    make
+
+Source environment file:
+
+    source result/bin/load-env-policycompass
+
 
 ## Testing
 
@@ -42,13 +61,6 @@ server which specifies HTTP responses for given HTTP requests.
 * [requests](http://docs.python-requests.org) (library for http requests)
 
 ### Installation
-
-Create Python Virtualenv and update pip:
-
-```shell
-)   virtualenv .
-    bin/pip install --upgrade pip
-```
 
 Install test runner:
 
