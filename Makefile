@@ -28,4 +28,4 @@ frontend_install:
 print-python-syspath:
 	./bin/python -c 'import sys,pprint;pprint.pprint(sys.path)'
 
-.PHONY: print-python-syspath test_install test_pyvenv frontend_install nix-build 
+.PHONY: print-python-syspath test_install test_pyvenv frontend_install nix-build all
