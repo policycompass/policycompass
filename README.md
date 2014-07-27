@@ -29,9 +29,16 @@ Install nix:
     bash <(curl https://nixos.org/nix/install)
     make
 
-Sart shell environment with all development tools:
+Start shell environment with all development tools:
 
     nix/env/bin/load-env-policycompass
+
+Install bower dependencies:
+
+    
+    cd policycompass_frontend
+    node_modules/bower/bin/bower install
+    cd ..
 
 All dependency services are now ready to work with (WORK IN PROGRESS).
 
