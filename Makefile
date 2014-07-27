@@ -22,7 +22,7 @@ test_install:
 frontend_install:
 	cd policycompass-frontend/ ;\
 	npm install ;\
-	node_modules/bower/bin/bower install bower ;\
+	node_modules/.bin/bower install ;\
 	cd ..
 
 print-python-syspath:
