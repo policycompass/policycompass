@@ -10,7 +10,7 @@ nix-build:
 	NIX_PATH=${NIX_PATH} nix-build -A policycompass-env -A policycompass -A nodejs-env --out-link nix/env dev.nix;\
 
 test_pyvenv:
-	[ ! -f ./bin/python3.4 ] && ./result-2/bin/pyvenv-3.4 --system-site-packages . ;\
+	[ ! -f ./bin/python3.4 ] && ./nix/env-2/bin/pyvenv-3.4 --system-site-packages . ;\
 	echo ../../../nix/env-2/lib/python3.4/site-packages > lib/python3.4/site-packages/result-2.pth ;\
 
 test_install:
@@ -22,11 +22,10 @@ test_install:
 frontend_install:
 	cd policycompass-frontend/ ;\
 	npm install ;\
-	npm install bower ;\
 	node_modules/bower/bin/bower install bower ;\
 	cd ..
 
 print-python-syspath:
 	./bin/python -c 'import sys,pprint;pprint.pprint(sys.path)'
 
-.PHONY: print-python-syspath acceptancetests pyvenv nix-build
+.PHONY: print-python-syspath test_install test_pyvenv frontend_install nix-build 
