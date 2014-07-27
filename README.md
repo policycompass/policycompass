@@ -43,6 +43,14 @@ Source environment file:
 
     source result/bin/load-env-policycompass
 
+Optional: lock this nix environment:
+
+  nix-env -iA policycompass-env -f dev.nix -p /nix/var/nix/gcroots/profiles/per-user/policycompass
+
+Optional: make a convenience link:
+
+  ln -sf /nix/var/nix/gcroots/profiles/per-user/policycompass/bin/load-env-policycompass ~/.
+
 
 ## Testing
 
