@@ -10,7 +10,7 @@ nix-build:
 	NIX_PATH=${NIX_PATH} nix-build -A policycompass-env -A policycompass -A nodejs-env --out-link nix/env dev.nix;\
 
 test_pyvenv:
-	[ ! -f ./bin/python3.4 ] && ./nix/env-2/bin/pyvenv-3.4 --system-site-packages . ;\
+	[ ! -f ./bin/python3.4 ] && ./nix/env-2/bin/pyvenv-3.4 . ;\
 	echo ../../../nix/env-2/lib/python3.4/site-packages > lib/python3.4/site-packages/result-2.pth ;\
 
 test_install:
