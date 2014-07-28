@@ -3,7 +3,10 @@ NIX_PATH=~/.nix-defexpr/channels/
 export PATH := ../nix/env-3/bin:$(PATH)
 
 
-all: nix-build test_pyvenv test_install frontend_install
+all: update_repros nix-build test_pyvenv test_install frontend_install
+
+update_repros:
+	git submodule foreach --recursive git checkout master
 
 nix-build:
 	nix-channel --update; \

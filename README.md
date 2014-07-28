@@ -14,25 +14,32 @@ Requirements:
 * python3.4 (optional for automatic installation)
 
 
-### Checkout repositories:
+### Checkout repositories and sub repositories:
 
 This requires an github.com account with [ssh keys](https://help.github.com/articles/generating-ssh-keys).
 
-    git clone git@github.com:policycompass/policycompass.git
-    cd policycompass
-    git submodule init
-    git submodule update --recursive
+    git clone --recursive git@github.com:policycompass/policycompass.git
     git submodule foreach --recursive git checkout master
 
+Note: If you clone the repro without --recursive you need to checkout the sub repositories manually:
+ 
+    cd policycompass-*
+    git submodule init
+-   git submodule update
+    git submodule foreach checkout master
 
 ### Automatic installation with the [nix](http://nixos.org/nix/) package manager:
 
 Install nix:
 
     bash <(curl https://nixos.org/nix/install)
+    source ~/.nix-profile/etc/profile.d/nix.sh 
+
+Build shell environment with all development tools:
+
     make
 
-Start shell environment with all development tools:
+Start shell environment:
 
     nix/env/bin/load-env-policycompass
 
