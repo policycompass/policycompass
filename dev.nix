@@ -42,6 +42,7 @@ rec {
   policycompass_service = buildEnv {
     name = "policycompass_service";
     paths = [
+        postgresql93
         ];
   };
 
