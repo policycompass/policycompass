@@ -1,5 +1,5 @@
 # add nix path to download channel data
-NIX_PATH=~/.nix-defexpr/channels/
+NIX_PATH=~/.nix-defexpr/channels/nixos
 # add npm and node to PATH
 export PATH := ../nix/env-3/bin:$(PATH)
 
@@ -10,8 +10,8 @@ update_repros:
 	git submodule foreach --recursive git checkout master
 
 nix_build:
-	nix-channel --add http://nixos.org/channels/nixos-14.04/ ;\
-	nix-channel --update ;\
+	nix-channel --add http://nixos.org/channels/nixos-14.04 nixos ;\
+	nix-channel --update ; \
 	NIX_PATH=${NIX_PATH} nix-build -A policycompass-env -A policycompass -A nodejs-env --out-link nix/env dev.nix;\
 
 test_pyvenv:
