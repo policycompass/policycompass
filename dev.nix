@@ -85,6 +85,8 @@ rec {
         python34Packages.virtualenv
         python34Packages.pillow
         python34Packages.ipdb
+        python34Packages.pep8
+        pyflakes
         sqlite
         stdenv
         zlib
@@ -108,4 +110,13 @@ rec {
      };
      propagatedBuildInputs = [ meld334 ];
   };
+  
+  pyflakes = stdenv.lib.overrideDerivation python34Packages.pyflakes (oldAttrs: {
+     name = "pyflakes-0.8.1";
+     src = fetchurl {
+       url = "http://pypi.python.org/packages/source/p/pyflakes/pyflakes-0.8.1.tar.gz";
+       md5 = "905fe91ad14b912807e8fdc2ac2e2c23";
+     };
+   }); 
+
 }
