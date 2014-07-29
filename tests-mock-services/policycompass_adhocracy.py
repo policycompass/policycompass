@@ -29,7 +29,22 @@ def get_login(request):
 
 @view_config(request_method='POST', route_name='principals_users', renderer='json')
 def post_principals_users(request):
-    """Return dummy test data for post to /principals_users."""
+    """Return dummy test data for post to /principals_users.
+
+    example post::
+
+    curl -X POST --data-binary @- http://localhost:9901/principals/users <<EOF
+
+    {"content_type": "adhocracy.resources.principal.IUser",
+     "data": {"adhocracy.sheets.user.IUserBasic":
+                {"name": "name",
+                 "email": "email@email.de"},
+              "adhocracy.sheets.user.IPasswordAuthentication":
+                {"password": "password"}
+              }
+     }
+    EOF
+    """
     data = request.json_body
 
     content_type = request.json_body['content_type']
@@ -53,16 +68,6 @@ def post_principals_users(request):
                'path': '/principals/users/000001'}
     return success
 
-# example post:
-#
-# curl -X POST --data '$(<< EOF
-# {"content_type": "adhocracy.resources.principal.IUser",
-#  "data": {"adhocracy.sheets.user.IUserBasic": {"name": "name", "email": "email@email.de"},
-#           "adhocracy.sheets.user.IPasswordAuthentication": {"password": "password"}
-#          }
-# }
-# EOF
-# )' http://localhost:9901/principals/users
 
 
 if __name__ == '__main__':
