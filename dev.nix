@@ -8,16 +8,16 @@ with pkgs;
 
 rec {
 
-  # source file so load bash environment with dependencies 
+  # source file so load bash environment with dependencies
   policycompass-env = myEnvFun {
     name = "policycompass";
     buildInputs = with pkgs; [ policycompass ];
-    extraCmds = 
+    extraCmds =
         "export PYTHONHOME=${python34env}; export PATH=$PATH:${nodejs-env}/bin;"
     ;
   };
 
-  # install dependencies 
+  # install dependencies
   policycompass = buildEnv {
     name = "policycompass";
     paths = [
@@ -34,7 +34,7 @@ rec {
   devtools = buildEnv {
     name = "devtools";
     paths = [
-        git 
+        git
         gitAndTools.tig
         ];
   };
@@ -74,7 +74,7 @@ rec {
         ];
   };
 
-  python34env = buildEnv { 
+  python34env = buildEnv {
     name = "Python34Env";
     paths = [
         libxml2
@@ -103,20 +103,20 @@ rec {
   };
   supervisordev34 = buildPythonPackage {
      name = "supervisordev34";
-     buildInputs = [ python34 meld334 ];
-     src = pkgs.fetchurl {
-        url = https://github.com/Supervisor/supervisor/archive/master.zip;
-        sha256 = "f292f520aeea8159ba281eef52a4c94c53cf4b2b8e090ecb9fa884f2205f26e2";
+     buildInputs = [ python34 python34Packages.mock ];
+     src = pkgs.fetchgit {
+        url = https://github.com/Supervisor/supervisor.git;
+        rev = "7e4e41b1f7e955de6d0963972695d6704ebeaf6a";
+        sha256 = "1jp52d2n16912kh3gig1ms5qc90zamn6p8axmyn9y5v23h61iw1n";
      };
      propagatedBuildInputs = [ meld334 ];
   };
-  
+
   pyflakes = stdenv.lib.overrideDerivation python34Packages.pyflakes (oldAttrs: {
      name = "pyflakes-0.8.1";
      src = fetchurl {
        url = "http://pypi.python.org/packages/source/p/pyflakes/pyflakes-0.8.1.tar.gz";
        md5 = "905fe91ad14b912807e8fdc2ac2e2c23";
      };
-   }); 
-
+   });
 }
