@@ -48,7 +48,7 @@ Start shell environment:
 
     nix/env/bin/load-env-policycompass
 
-All dependency services are now ready to work with (WORK IN PROGRESS).
+All dependency services are now ready to work with.
 
 Optional: lock this nix environment and make a convenience link:
 
