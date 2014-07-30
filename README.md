@@ -28,6 +28,11 @@ Note: If you clone the repro without --recursive you need to checkout the sub re
 -   git submodule update
     git submodule foreach checkout master
 
+To update all repositories run:
+    
+    git pull
+    git submodule foreach --recursive git pull
+
 ### Automatic installation with the [nix](http://nixos.org/nix/) package manager:
 
 Install nix:

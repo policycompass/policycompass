@@ -7,6 +7,7 @@ export PATH := ../nix/env-3/bin:$(PATH)
 all: update_repros nix_build test_pyvenv test_install frontend_install services_pyvenv services_install 
 
 update_repros:
+	git pull
 	git submodule foreach --recursive git checkout master ;\
     git submodule foreach --recursive git pull
 
