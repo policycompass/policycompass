@@ -7,7 +7,8 @@ export PATH := ../nix/env-3/bin:$(PATH)
 all: update_repros nix_build test_pyvenv test_install frontend_install services_pyvenv services_install 
 
 update_repros:
-	git submodule foreach --recursive git checkout master
+	git submodule foreach --recursive git checkout master ;\
+    git submodule foreach --recursive git pull
 
 nix_build:
 	nix-channel --add http://nixos.org/channels/nixos-14.04 nixos ;\
