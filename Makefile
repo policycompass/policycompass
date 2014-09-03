@@ -8,6 +8,8 @@ all: update_repros nix_build test_pyvenv test_install frontend_install services_
 
 update_repros:
 	git pull
+	git submodule foreach --recursive git submodule init ;\
+	git submodule foreach --recursive git submodule update ;\
 	git submodule foreach --recursive git checkout master ;\
     git submodule foreach --recursive git pull
 
@@ -43,9 +45,8 @@ services_install:
 	./bin/pip3.4 install --upgrade wheel ;\
 	./bin/pip3.4 install --download-cache ../cache/downloads -r requirements.txt ;\
     cp config/settings.sample.py config/settings.py ;\
-	bin/python3.4 manage.py syncdb ;\
     bin/python3.4 manage.py migrate ;\
-    bin/python3.4 manage.py loaddata metrics events users references ;\
+    bin/python3.4 manage.py loaddata metrics events users references visualizations;\
 
 print-python-syspath:
 	./bin/python -c 'import sys,pprint;pprint.pprint(sys.path)'
