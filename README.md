@@ -19,17 +19,17 @@ Requirements:
 This requires an github.com account with [ssh keys](https://help.github.com/articles/generating-ssh-keys).
 
     git clone --recursive git@github.com:policycompass/policycompass.git
-    git submodule foreach --recursive git checkout master
+    git submodule foreach --recursive "(git checkout master; git pull)"
 
-Note: If you clone the repro without --recursive you need to checkout the sub repositories manually:
- 
-    cd policycompass-*
+Note: If you clone the repository without --recursive you need to checkout the sub repositories manually:
+
+    cd policycompass
     git submodule init
--   git submodule update
-    git submodule foreach checkout master
+    git submodule update
+    git submodule foreach "(git checkout master; git pull)"
 
 To update all repositories run:
-    
+
     git pull
     git submodule foreach --recursive git pull
 
@@ -38,7 +38,7 @@ To update all repositories run:
 Install nix:
 
     bash <(curl https://nixos.org/nix/install)
-    source ~/.nix-profile/etc/profile.d/nix.sh 
+    source ~/.nix-profile/etc/profile.d/nix.sh
 
 Build shell environment with all development tools:
 
@@ -58,7 +58,7 @@ Optional: lock this nix environment and make a convenience link:
 Optional: Start all services and mock services with [supervisor](http://supervisord.org/):
 
     WORK IN PROGRESS
-   
+
 
 ### Manual installation:
 
@@ -102,7 +102,7 @@ server which specifies HTTP responses for given HTTP requests.
 You can start the example mock server with:
 
     bin/python tests-mock-services/example-service.py
-    
+
 Test that it is working correctly:
 
     wget http://localhost:9900/test/value
