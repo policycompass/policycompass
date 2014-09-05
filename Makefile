@@ -14,6 +14,7 @@ update_repros:
     git submodule foreach --recursive git pull
 
 nix_build:
+	source ~/.nix-profile/etc/profile.d/nix.sh ;\
 	nix-channel --add http://nixos.org/channels/nixos-14.04 nixos ;\
 	nix-channel --update ; \
 	NIX_PATH=${NIX_PATH} nix-build -A policycompass-env -A policycompass -A nodejs-env --out-link nix/env dev.nix;\
@@ -32,7 +33,8 @@ frontend_install:
 	cd policycompass-frontend/ ;\
 	npm install ;\
 	node_modules/.bin/bower install ;\
-	cd ..
+	echo '{"PC_SERVICES_URL": "http://localhost:9000"}' > development.json ;\
+	cd .. 
 
 services_pyvenv:
 	cd policycompass-services/ ;\
