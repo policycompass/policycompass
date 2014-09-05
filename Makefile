@@ -8,13 +8,13 @@ all: update_repros nix_build test_pyvenv test_install frontend_install services_
 
 update_repros:
 	git pull
+	git submodule foreach --recursive git checkout master ;\
 	git submodule foreach --recursive git submodule init ;\
 	git submodule foreach --recursive git submodule update ;\
-	git submodule foreach --recursive git checkout master ;\
     git submodule foreach --recursive git pull
 
 nix_build:
-	source ~/.nix-profile/etc/profile.d/nix.sh ;\
+	. ~/.nix-profile/etc/profile.d/nix.sh ;\
 	nix-channel --add http://nixos.org/channels/nixos-14.04 nixos ;\
 	nix-channel --update ; \
 	NIX_PATH=${NIX_PATH} nix-build -A policycompass-env -A policycompass -A nodejs-env --out-link nix/env dev.nix;\

@@ -14,24 +14,12 @@ Requirements:
 * python3.4 (optional for automatic installation)
 
 
-### Checkout repositories and sub repositories:
+### Checkout main repository
 
 This requires an github.com account with [ssh keys](https://help.github.com/articles/generating-ssh-keys).
 
-    git clone --recursive git@github.com:policycompass/policycompass.git
-    git submodule foreach --recursive "(git checkout master; git pull)"
-
-Note: If you clone the repository without --recursive you need to checkout the sub repositories manually:
-
-    cd policycompass
-    git submodule init
-    git submodule update
-    git submodule foreach "(git checkout master; git pull)"
-
-To update all repositories run:
-
-    git pull
-    git submodule foreach --recursive git pull
+    git clone git@github.com:policycompass/policycompass.git
+    cd policycompass 
 
 ### Automatic installation with the [nix](http://nixos.org/nix/) package manager:
 
@@ -40,7 +28,7 @@ Install nix:
     bash <(curl https://nixos.org/nix/install)
     source ~/.nix-profile/etc/profile.d/nix.sh
 
-Build shell environment with all development tools:
+Install dependency services and build shell environment with all development tools:
 
     make
 
@@ -67,16 +55,26 @@ Install basic requirements:
 * [python3.4](https://python.org)
 * firefox (default setting for browser acceptance tests)
 
+Checkout sub repositories:
+
+    git submodule foreach --recursive "(git checkout master; git submodule init; git submodule update; git pull)"
+
+To update all repositories run:
+
+    git pull
+    git submodule foreach --recursive "(git submodule init; git submodule update; git-pull)"
+
 Create Python virtualenv:
 
     pyvenv-3.4 .
-
 
 Install test runner:
 
     bin/pip3.4 install -r requirements.txt
 
-Read the README files in the subproject directories (./policycompass-*).
+Install dependency services:
+
+    Read the README files in the subproject directories (./policycompass-*).
 
 
 ## Testing
