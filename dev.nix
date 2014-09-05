@@ -8,7 +8,7 @@ with pkgs;
 
 rec {
 
-  # source file so load bash environment with dependencies
+  # source file to load bash environment with dependencies
   policycompass-env = myEnvFun {
     name = "policycompass";
     buildInputs = with pkgs; [ policycompass ];
