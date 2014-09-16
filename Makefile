@@ -25,11 +25,15 @@ test_pyvenv:
 	[ ! -f ./bin/python3.4 ] && ./nix/env-2/bin/pyvenv-3.4 . ;\
 	echo ../../../nix/env-2/lib/python3.4/site-packages > lib/python3.4/site-packages/result-2.pth ;\
 
+# To create the wheel packages which are cached in ./cache/weels those  commands 
+# need to be run:
+#
+#       ./bin/pip3.4 install --download-cache ./cache/downloads -r requirements.txt
+#       ./bin/pip3.4 wheel --wheel-dir=./cache/wheels -r requirements.txt
+
 test_install:
-	./bin/pip3.4 install --upgrade wheel ;\
-	#./bin/pip3.4 install --download-cache ./cache/downloads -r requirements.txt ;\
-	#./bin/pip3.4 wheel --wheel-dir=./cache/wheels -r requirements.txt ;\
-	bin/pip3.4 install --no-index --find-links=./cache/wheels -r requirements.txt
+	./bin/pip3.4 install --upgrade wheel
+	./bin/pip3.4 install --no-index --find-links=./cache/wheels -r requirements.txt
 
 frontend_install:
 	cd policycompass-frontend/ ;\
