@@ -6,12 +6,14 @@ export PATH := ../nix/env-3/bin:$(PATH)
 
 all: update_repros nix_build test_pyvenv test_install frontend_install services_pyvenv services_install 
 
+# recursivly checkout all submodules master branches
 update_repros:
-	git pull
-	git submodule foreach --recursive git checkout master ;\
-	git submodule foreach --recursive git submodule init ;\
-	git submodule foreach --recursive git submodule update ;\
-    git submodule foreach --recursive git pull
+	git submodule init
+	git submodule update --recursive
+	git submodule foreach --recursive git submodule init
+	git submodule foreach --recursive git submodule update
+	git submodule foreach --recursive git checkout master
+	git pull --recurse-submodules
 
 nix_build:
 	. ~/.nix-profile/etc/profile.d/nix.sh ;\
