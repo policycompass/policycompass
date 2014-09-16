@@ -1,17 +1,22 @@
 # add nix path to download channel data
 NIX_PATH=~/.nix-defexpr/channels/nixos
 # add npm and node to PATH
-export PATH := ../nix/env-3/bin:$(PATH)
-
+export PATH := $(PWD)/nix/env-3/bin:$(PATH)
+# add postgres to PATH for psycopg installation
+export PATH := $(PWD)/nix/env-2/bin:$(PATH)
+# setup ssl certificate paths for git in nix env-2 (this is an issue of nix)
+export GIT_SSL_CAINFO := $(PWD)/nix/env-2/etc/ca-bundle.crt
 
 all: update_repros nix_build test_pyvenv test_install frontend_install services_pyvenv services_install 
 
+# recursivly checkout all submodules master branches
 update_repros:
-	git pull
-	git submodule foreach --recursive git checkout master ;\
-	git submodule foreach --recursive git submodule init ;\
-	git submodule foreach --recursive git submodule update ;\
-    git submodule foreach --recursive git pull
+	git submodule init
+	git submodule update --recursive
+	git submodule foreach --recursive git submodule init
+	git submodule foreach --recursive git submodule update
+	git submodule foreach --recursive git checkout master
+	git pull --recurse-submodules
 
 nix_build:
 	. ~/.nix-profile/etc/profile.d/nix.sh ;\
@@ -23,16 +28,20 @@ test_pyvenv:
 	[ ! -f ./bin/python3.4 ] && ./nix/env-2/bin/pyvenv-3.4 . ;\
 	echo ../../../nix/env-2/lib/python3.4/site-packages > lib/python3.4/site-packages/result-2.pth ;\
 
+# To create the wheel packages which are cached in ./cache/weels those  commands 
+# need to be run:
+#
+#       ./bin/pip3.4 install --download-cache ./cache/downloads -r requirements.txt
+#       ./bin/pip3.4 wheel --wheel-dir=./cache/wheels -r requirements.txt
+
 test_install:
-	./bin/pip3.4 install --upgrade wheel ;\
-	#./bin/pip3.4 install --download-cache ./cache/downloads -r requirements.txt ;\
-	#./bin/pip3.4 wheel --wheel-dir=./cache/wheels -r requirements.txt ;\
-	bin/pip3.4 install --no-index --find-links=./cache/wheels -r requirements.txt
+	./bin/pip3.4 install --upgrade wheel
+	./bin/pip3.4 install --no-index --find-links=./cache/wheels -r requirements.txt
 
 frontend_install:
 	cd policycompass-frontend/ ;\
 	npm install ;\
-	node_modules/.bin/bower install ;\
+	yes n | node_modules/.bin/bower install ;\
 	echo '{"PC_SERVICES_URL": "http://localhost:9000"}' > development.json ;\
 	cd .. 
 
@@ -46,9 +55,9 @@ services_install:
 	cd policycompass-services/ ;\
 	./bin/pip3.4 install --upgrade wheel ;\
 	./bin/pip3.4 install --download-cache ../cache/downloads -r requirements.txt ;\
-    cp config/settings.sample.py config/settings.py ;\
-    bin/python3.4 manage.py migrate ;\
-    bin/python3.4 manage.py loaddata metrics events users references visualizations;\
+	cp config/settings.sample.py config/settings.py ;\
+	bin/python3.4 manage.py migrate ;\
+	bin/python3.4 manage.py loaddata metrics events users references visualizations;\
 
 print-python-syspath:
 	./bin/python -c 'import sys,pprint;pprint.pprint(sys.path)'

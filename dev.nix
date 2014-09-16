@@ -34,6 +34,7 @@ rec {
   devtools = buildEnv {
     name = "devtools";
     paths = [
+        cacert
         git
         gitAndTools.tig
         ];
