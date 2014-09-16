@@ -1,10 +1,11 @@
 # add nix path to download channel data
 NIX_PATH=~/.nix-defexpr/channels/nixos
 # add npm and node to PATH
-export PATH := ../nix/env-3/bin:$(PATH)
+export PATH := $(PWD)/nix/env-3/bin:$(PATH)
 # add postgres to PATH for psycopg installation
-export PATH := ../nix/env-2/bin:$(PATH)
-
+export PATH := $(PWD)/nix/env-2/bin:$(PATH)
+# setup ssl certificate paths for git in nix env-2 (this is an issue of nix)
+export GIT_SSL_CAINFO := $(PWD)/nix/env-2/etc/ca-bundle.crt
 
 all: update_repros nix_build test_pyvenv test_install frontend_install services_pyvenv services_install 
 
