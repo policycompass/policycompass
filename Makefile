@@ -2,6 +2,8 @@
 NIX_PATH=~/.nix-defexpr/channels/nixos
 # add npm and node to PATH
 export PATH := ../nix/env-3/bin:$(PATH)
+# add postgres to PATH for psycopg installation
+export PATH := ../nix/env-2/bin:$(PATH)
 
 
 all: update_repros nix_build test_pyvenv test_install frontend_install services_pyvenv services_install 
