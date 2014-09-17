@@ -32,15 +32,17 @@ Install dependency services and build shell environment with all development too
 
     make
 
-Start shell environment:
+Start all installed services and the frontend using supervisord:
 
-    nix/env/bin/load-env-policycompass
+    nix-shell -A policycompass-env -I ~/.nix-defexpr/channels/nixos --pure --command supervisord
 
-All dependency services are now ready to work with.
+The nix evironment can be entered by simply running
+
+    nix-shell -A policycompass-env -I ~/.nix-defexpr/channels/nixos --pure
 
 Optional: lock this nix environment and make a convenience link:
 
-    nix-env -iA policycompass-env -f dev.nix -p /nix/var/nix/gcroots/profiles/per-user/policycompass
+    nix-env -iA policycompass-env -p /nix/var/nix/gcroots/profiles/per-user/policycompass
     ln -sf /nix/var/nix/gcroots/profiles/per-user/policycompass/bin/load-env-policycompass ~/.
 
 Optional: Start all services and mock services with [supervisor](http://supervisord.org/):
