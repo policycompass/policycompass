@@ -50,6 +50,7 @@ rec {
   policycompass_adhocracy = buildEnv {
     name = "policycompass_adhocracy";
     paths = [
+        ruby
         graphviz
         ];
   };
