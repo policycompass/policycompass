@@ -59,7 +59,22 @@ services_install:
 	bin/python3.4 manage.py migrate ;\
 	bin/python3.4 manage.py loaddata metrics events users references visualizations;\
 
+adhocracy3:
+	git clone git@github.com:liqd/adhocracy3.git
+
+adhocracy3_pyenv: adhocracy3 nix_build
+	[ ! -f ./adhocracy3/bin/python3.4 ] && ./nix/env-2/bin/pyvenv-3.4 adhocracy3 || true
+
+adhocracy_install: adhocracy3 nix_build adhocracy3_pyenv
+	cd adhocracy3 &&\
+	git pull &&\
+	git submodule init &&\
+	git submodule update
+	cd adhocracy3 && ./bin/python ./bootstrap.py
+	cd adhocracy3 && ./bin/buildout
+
 print-python-syspath:
 	./bin/python -c 'import sys,pprint;pprint.pprint(sys.path)'
 
-.PHONY: print-python-syspath test_install test_pyvenv frontend_install nix-build all
+
+.PHONY: print-python-syspath test_install test_pyvenv frontend_install nix_build adhocracy_install adhocracy3_pyenv all
