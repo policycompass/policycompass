@@ -1,11 +1,11 @@
 # add nix path to download channel data
 NIX_PATH=~/.nix-defexpr/channels/nixos
 # add npm and node to PATH
-export PATH := $(PWD)/nix/env-3/bin:$(PATH)
-# add postgres to PATH for psycopg installation
 export PATH := $(PWD)/nix/env-2/bin:$(PATH)
-# setup ssl certificate paths for git in nix env-2 (this is an issue of nix)
-export GIT_SSL_CAINFO := $(PWD)/nix/env-2/etc/ca-bundle.crt
+# add postgres to PATH for psycopg installation
+export PATH := $(PWD)/nix/env/bin:$(PATH)
+# setup ssl certificate paths for git in nix env (this is an issue of nix)
+export GIT_SSL_CAINFO := $(PWD)/nix/env/etc/ca-bundle.crt
 
 all: update_repros nix_build test_pyvenv test_install frontend_install services_pyvenv services_install
 
@@ -25,8 +25,8 @@ nix_build:
 	NIX_PATH=${NIX_PATH} nix-build -A policycompass -A nodejs-env --out-link nix/env ;\
 
 test_pyvenv:
-	[ ! -f ./bin/python3.4 ] && ./nix/env-2/bin/pyvenv-3.4 . ;\
-	echo ../../../nix/env-2/lib/python3.4/site-packages > lib/python3.4/site-packages/result-2.pth ;\
+	[ ! -f ./bin/python3.4 ] && ./nix/env/bin/pyvenv-3.4 . ;\
+	echo ../../../nix/env/lib/python3.4/site-packages > lib/python3.4/site-packages/result-2.pth ;\
 
 # To create the wheel packages which are cached in ./cache/weels those commands
 # need to be run:
@@ -47,8 +47,8 @@ frontend_install:
 
 services_pyvenv:
 	cd policycompass-services/ ;\
-	[ ! -f ./bin/python3.4 ] && ../nix/env-2/bin/pyvenv-3.4 . ;\
-	echo ../../../../nix/env-2/lib/python3.4/site-packages > lib/python3.4/site-packages/env-2.pth ;\
+	[ ! -f ./bin/python3.4 ] && ../nix/env/bin/pyvenv-3.4 . ;\
+	echo ../../../../nix/env/lib/python3.4/site-packages > lib/python3.4/site-packages/env.pth ;\
 	cd ..
 
 services_install:
@@ -63,7 +63,7 @@ adhocracy3:
 	git clone git@github.com:liqd/adhocracy3.git
 
 adhocracy3_pyenv: adhocracy3 nix_build
-	[ ! -f ./adhocracy3/bin/python3.4 ] && ./nix/env-2/bin/pyvenv-3.4 adhocracy3 || true
+	[ ! -f ./adhocracy3/bin/python3.4 ] && ./nix/env/bin/pyvenv-3.4 adhocracy3 || true
 
 adhocracy_install: adhocracy3 nix_build adhocracy3_pyenv
 	cd adhocracy3 &&\
