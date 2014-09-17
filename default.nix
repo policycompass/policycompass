@@ -51,7 +51,7 @@ rec {
   policycompass_frontend = buildEnv {
     name = "policycompass_frontend";
     paths = [
-        nodePackages.npm
+        nodejs
         ];
   };
 
