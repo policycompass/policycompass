@@ -76,4 +76,5 @@ adhocracy_install: adhocracy3 nix_build adhocracy3_pyenv
 print-python-syspath:
 	./bin/python -c 'import sys,pprint;pprint.pprint(sys.path)'
 
-.PHONY: print-python-syspath test_install test_pyvenv frontend_install nix-build adhocracy_install adhocracy3_pyenv all
+
+.PHONY: print-python-syspath test_install test_pyvenv frontend_install nix_build adhocracy_install adhocracy3_pyenv all
