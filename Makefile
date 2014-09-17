@@ -22,7 +22,7 @@ nix_build:
 	. ~/.nix-profile/etc/profile.d/nix.sh ;\
 	nix-channel --add http://nixos.org/channels/nixos-14.04 nixos ;\
 	nix-channel --update ; \
-	NIX_PATH=${NIX_PATH} nix-build -A policycompass-env -A policycompass -A nodejs-env --out-link nix/env dev.nix;\
+	NIX_PATH=${NIX_PATH} nix-build -A policycompass -A nodejs-env --out-link nix/env ;\
 
 test_pyvenv:
 	[ ! -f ./bin/python3.4 ] && ./nix/env-2/bin/pyvenv-3.4 . ;\

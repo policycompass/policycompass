@@ -1,20 +1,21 @@
 { }:
 
 let
-  pkgs = import <nixpkgs> { };
+   pkgs = import <nixpkgs> { };
+   devtools = [
+        pkgs.cacert
+        pkgs.git
+        pkgs.gitAndTools.tig
+    ];
 in
 
 with pkgs;
 
 rec {
 
-  # source file to load bash environment with dependencies
-  policycompass-env = myEnvFun {
+  policycompass-env = stdenv.mkDerivation {
     name = "policycompass";
-    buildInputs = with pkgs; [ policycompass ];
-    extraCmds =
-        "export PYTHONHOME=${python34env}; export PATH=$PATH:${nodejs-env}/bin;"
-    ;
+    buildInputs = [ policycompass ];
   };
 
   # install dependencies
@@ -23,20 +24,12 @@ rec {
     paths = [
         python34env
         supervisordev34
+        nginx
         devtools
         policycompass_service
         policycompass_adhocracy
         policycompass_frontend
         tests
-        ];
-  };
-
-  devtools = buildEnv {
-    name = "devtools";
-    paths = [
-        cacert
-        git
-        gitAndTools.tig
         ];
   };
 
@@ -58,7 +51,7 @@ rec {
   policycompass_frontend = buildEnv {
     name = "policycompass_frontend";
     paths = [
-        nodePackages.npm
+        nodejs
         ];
   };
 
@@ -95,7 +88,7 @@ rec {
         ];
   };
 
-  meld334 = buildPythonPackage {
+  meld334 = python34Packages.buildPythonPackage {
      name = "meld3-1.0.0";
      buildInputs = [ python34 ];
      src = pkgs.fetchurl {
@@ -103,13 +96,14 @@ rec {
         sha256 = "57b41eebbb5a82d4a928608962616442e239ec6d611fe6f46343e765e36f0b2b";
      };
   };
-  supervisordev34 = buildPythonPackage {
+
+  supervisordev34 = python34Packages.buildPythonPackage {
      name = "supervisordev34";
      buildInputs = [ python34 python34Packages.mock ];
      src = pkgs.fetchgit {
         url = https://github.com/Supervisor/supervisor.git;
-        rev = "7e4e41b1f7e955de6d0963972695d6704ebeaf6a";
-        sha256 = "1jp52d2n16912kh3gig1ms5qc90zamn6p8axmyn9y5v23h61iw1n";
+        rev = "5cccaf73d0aa4e46a4dbc71db7e6b55403d58097";
+        sha256 = "08cfdea9c6b0c7c2243d64a83809841ac0a78e5e6b131adb2e859a4f1306630d";
      };
      propagatedBuildInputs = [ meld334 ];
   };
