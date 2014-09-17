@@ -24,6 +24,7 @@ rec {
     paths = [
         python34env
         supervisordev34
+        nginx
         devtools
         policycompass_service
         policycompass_adhocracy
