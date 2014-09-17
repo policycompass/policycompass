@@ -102,8 +102,8 @@ rec {
      buildInputs = [ python34 python34Packages.mock ];
      src = pkgs.fetchgit {
         url = https://github.com/Supervisor/supervisor.git;
-        rev = "7e4e41b1f7e955de6d0963972695d6704ebeaf6a";
-        sha256 = "1jp52d2n16912kh3gig1ms5qc90zamn6p8axmyn9y5v23h61iw1n";
+        rev = "5cccaf73d0aa4e46a4dbc71db7e6b55403d58097";
+        sha256 = "08cfdea9c6b0c7c2243d64a83809841ac0a78e5e6b131adb2e859a4f1306630d";
      };
      propagatedBuildInputs = [ meld334 ];
   };
