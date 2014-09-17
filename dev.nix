@@ -1,20 +1,21 @@
 { }:
 
 let
-  pkgs = import <nixpkgs> { };
+   pkgs = import <nixpkgs> { };
+   devtools = [
+        pkgs.cacert
+        pkgs.git
+        pkgs.gitAndTools.tig
+    ];
 in
 
 with pkgs;
 
 rec {
 
-  # source file to load bash environment with dependencies
-  policycompass-env = myEnvFun {
+  policycompass-env = stdenv.mkDerivation {
     name = "policycompass";
-    buildInputs = with pkgs; [ policycompass ];
-    extraCmds =
-        "export PYTHONHOME=${python34env}; export PATH=$PATH:${nodejs-env}/bin;"
-    ;
+    buildInputs = [ policycompass ];
   };
 
   # install dependencies
@@ -28,15 +29,6 @@ rec {
         policycompass_adhocracy
         policycompass_frontend
         tests
-        ];
-  };
-
-  devtools = buildEnv {
-    name = "devtools";
-    paths = [
-        cacert
-        git
-        gitAndTools.tig
         ];
   };
 
@@ -95,7 +87,7 @@ rec {
         ];
   };
 
-  meld334 = buildPythonPackage {
+  meld334 = python34Packages.buildPythonPackage {
      name = "meld3-1.0.0";
      buildInputs = [ python34 ];
      src = pkgs.fetchurl {
@@ -103,7 +95,8 @@ rec {
         sha256 = "57b41eebbb5a82d4a928608962616442e239ec6d611fe6f46343e765e36f0b2b";
      };
   };
-  supervisordev34 = buildPythonPackage {
+
+  supervisordev34 = python34Packages.buildPythonPackage {
      name = "supervisordev34";
      buildInputs = [ python34 python34Packages.mock ];
      src = pkgs.fetchgit {
