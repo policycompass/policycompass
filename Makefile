@@ -57,7 +57,7 @@ services_install:
 	./bin/pip3.4 install --download-cache ../cache/downloads -r requirements.txt ;\
 	cp config/settings.sample.py config/settings.py ;\
 	bin/python3.4 manage.py migrate ;\
-	bin/python3.4 manage.py loaddata metrics events users references visualizations;\
+	bin/python3.4 manage.py loaddata metrics events common references visualizations;\
 
 adhocracy3:
 	git clone git@github.com:liqd/adhocracy3.git
