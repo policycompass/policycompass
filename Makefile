@@ -1,8 +1,6 @@
 # add nix path to download channel data
 NIX_PATH=~/.nix-defexpr/channels/nixos
-# add npm and node to PATH
-export PATH := $(PWD)/nix/env-2/bin:$(PATH)
-# add postgres to PATH for psycopg installation
+# add all binaries from nix enviroment to path
 export PATH := $(PWD)/nix/env/bin:$(PATH)
 # setup ssl certificate paths for git in nix env (this is an issue of nix)
 export GIT_SSL_CAINFO := $(PWD)/nix/env/etc/ca-bundle.crt
@@ -22,7 +20,7 @@ nix_build:
 	. ~/.nix-profile/etc/profile.d/nix.sh ;\
 	nix-channel --add http://nixos.org/channels/nixos-14.04 nixos ;\
 	nix-channel --update ; \
-	NIX_PATH=${NIX_PATH} nix-build -A policycompass -A nodejs-env --out-link nix/env ;\
+	nix-build --out-link nix/env -I $(NIX_PATH)
 
 test_pyvenv:
 	[ ! -f ./bin/python3.4 ] && ./nix/env/bin/pyvenv-3.4 . ;\

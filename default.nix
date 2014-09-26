@@ -2,76 +2,10 @@
 
 let
    pkgs = import <nixpkgs> { };
-   devtools = [
-        pkgs.cacert
-        pkgs.git
-        pkgs.gitAndTools.tig
-    ];
 in
-
 with pkgs;
-
-rec {
-
-  policycompass-env = stdenv.mkDerivation {
-    name = "policycompass";
-    buildInputs = [ policycompass ];
-  };
-
-  # install dependencies
-  policycompass = buildEnv {
-    name = "policycompass";
-    paths = [
-        python34env
-        supervisordev34
-        nginx
-        devtools
-        policycompass_service
-        policycompass_adhocracy
-        policycompass_frontend
-        tests
-        ];
-  };
-
-  policycompass_service = buildEnv {
-    name = "policycompass_service";
-    paths = [
-        postgresql93
-        ];
-  };
-
-  policycompass_adhocracy = buildEnv {
-    name = "policycompass_adhocracy";
-    paths = [
-        ruby
-        graphviz
-        ];
-  };
-
-  policycompass_frontend = buildEnv {
-    name = "policycompass_frontend";
-    paths = [
-        nodejs
-        ];
-  };
-
-  tests = buildEnv {
-    name = "tests";
-    paths = [
-        phantomjs
-        ];
-  };
-
-  nodejs-env = buildEnv {
-    name = "nodejs-env";
-    paths = [
-        nodejs
-        ];
-  };
-
-  python34env = buildEnv {
-    name = "Python34Env";
-    paths = [
+let
+   python34env = [
         libxml2
         libxslt
         libzip
@@ -85,17 +19,40 @@ rec {
         sqlite
         stdenv
         zlib
-        ];
-  };
+   ];
 
-  meld334 = python34Packages.buildPythonPackage {
-     name = "meld3-1.0.0";
-     buildInputs = [ python34 ];
-     src = pkgs.fetchurl {
-        url = https://pypi.python.org/packages/source/m/meld3/meld3-1.0.0.tar.gz;
-        sha256 = "57b41eebbb5a82d4a928608962616442e239ec6d611fe6f46343e765e36f0b2b";
+   devtools = [
+        cacert
+        git
+        gitAndTools.tig
+    ];
+
+    # install dependencies
+    adhocracy_dependencies = [
+        ruby
+        graphviz
+    ];
+
+    services_dependencies = [
+        postgresql93
+   ];
+
+   frontend_dependencies = [
+        nodejs
+   ];
+
+   test_dependencies = [
+        phantomjs
+   ];
+
+   meld334 = python34Packages.buildPythonPackage {
+   name = "meld3-1.0.0";
+           buildInputs = [ python34 ];
+           src = pkgs.fetchurl {
+           url = https://pypi.python.org/packages/source/m/meld3/meld3-1.0.0.tar.gz;
+           sha256 = "57b41eebbb5a82d4a928608962616442e239ec6d611fe6f46343e765e36f0b2b";
+        };
      };
-  };
 
   supervisordev34 = python34Packages.buildPythonPackage {
      name = "supervisordev34";
@@ -115,4 +72,24 @@ rec {
        md5 = "905fe91ad14b912807e8fdc2ac2e2c23";
      };
    });
+
+  policycompass = buildEnv {
+    name = "policycompass";
+    paths = [
+        python34env
+        supervisordev34
+        nginx
+        devtools
+        services_dependencies
+        adhocracy_dependencies
+        frontend_dependencies
+        test_dependencies
+        ];
+  };
+  in
+rec {
+  policycompass-env = stdenv.mkDerivation {
+    name = "policycompass";
+    buildInputs = [ policycompass ];
+  };
 }
