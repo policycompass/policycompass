@@ -116,6 +116,8 @@ let
      };
    });
 
+  in
+{
   policycompass = buildEnv {
     name = "policycompass";
     paths = [
@@ -128,11 +130,5 @@ let
         frontend_dependencies
         test_dependencies
         ];
-  };
-  in
-rec {
-  policycompass-env = stdenv.mkDerivation {
-    name = "policycompass";
-    buildInputs = [ policycompass ];
   };
 }
