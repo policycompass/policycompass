@@ -45,7 +45,7 @@ frontend_install:
 
 services_pyvenv:
 	cd policycompass-services/ ;\
-	[ ! -f ./bin/python3.4 ] && ../nix/env/bin/pyvenv-3.4 . ;\
+	[ ! -f ./bin/python3.4 ] && pyvenv-3.4 . ;\
 	echo ../../../../nix/env/lib/python3.4/site-packages > lib/python3.4/site-packages/env.pth ;\
 	cd ..
 
