@@ -5,6 +5,48 @@ let
 in
 with pkgs;
 let
+  elasticsearch134 =
+  # derivation taken from https://github.com/NixOS/nixpkgs/blob/18476acaff1308adc120c686de2094ef86d9d61d/pkgs/servers/search/elasticsearch/default.nix
+    with stdenv.lib;
+    stdenv.mkDerivation rec {
+
+      name = "elasticsearch-1.3.4";
+      src = fetchurl {
+        url = "https://download.elasticsearch.org/elasticsearch/elasticsearch/${name}.tar.gz";
+        sha256 = "18af629c388b442bc8daa39754ea1f39a606acd7647fe042aed79ef014a7d330";
+      };
+
+  #    yves: this only removes the default value for esHome I guess we can do it without that patch
+  #    patches = [ ./es-home.patch ];
+
+      buildInputs = [ makeWrapper jre ] ++
+        (if (!stdenv.isDarwin) then [utillinux] else [getopt]);
+
+      installPhase = ''
+        mkdir -p $out
+        cp -R bin config lib $out
+        # don't want to have binary with name plugin
+        mv $out/bin/plugin $out/bin/elasticsearch-plugin
+        # set ES_CLASSPATH and JAVA_HOME
+        wrapProgram $out/bin/elasticsearch \
+          --prefix ES_CLASSPATH : "$out/lib/${name}.jar":"$out/lib/*":"$out/lib/sigar/*" \
+          ${if (!stdenv.isDarwin)
+            then ''--prefix PATH : "${utillinux}/bin/"''
+            else ''--prefix PATH : "${getopt}/bin"''} \
+          --set JAVA_HOME "${jre}"
+        wrapProgram $out/bin/elasticsearch-plugin \
+          --prefix ES_CLASSPATH : "$out/lib/${name}.jar":"$out/lib/*":"$out/lib/sigar/*" \
+          --set JAVA_HOME "${jre}"
+      '';
+
+      meta = {
+        description = "Open Source, Distributed, RESTful Search Engine";
+        license = stdenv.lib.licenses.asl20;
+        platforms = platforms.unix;
+      };
+    };
+in
+let
    python34env = [
         libxml2
         libxslt
@@ -35,6 +77,7 @@ let
 
     services_dependencies = [
         postgresql93
+        elasticsearch134
    ];
 
    frontend_dependencies = [
