@@ -19,7 +19,7 @@ Requirements:
 This requires an github.com account with [ssh keys](https://help.github.com/articles/generating-ssh-keys).
 
     git clone git@github.com:policycompass/policycompass.git
-    cd policycompass 
+    cd policycompass
 
 ### Automatic installation with the [nix](http://nixos.org/nix/) package manager:
 
@@ -34,11 +34,11 @@ Install dependency services and build shell environment with all development too
 
 Start all installed services and the frontend using supervisord:
 
-    nix-shell -A policycompass-env -I ~/.nix-defexpr/channels/nixos --pure --command supervisord
+    nix-shell -I ~/.nix-defexpr/channels/nixos --pure --command supervisord
 
 The nix evironment can be entered by simply running
 
-    nix-shell -A policycompass-env -I ~/.nix-defexpr/channels/nixos --pure
+    nix-shell -I ~/.nix-defexpr/channels/nixos --pure
 
 Optional: lock this nix environment and make a convenience link:
 
