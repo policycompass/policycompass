@@ -7,3 +7,5 @@ lib64
 pyvenv.cfg
 nix/
 cache/downloads
+var/
+bin/
