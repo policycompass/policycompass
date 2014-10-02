@@ -2,76 +2,52 @@
 
 let
    pkgs = import <nixpkgs> { };
-   devtools = [
-        pkgs.cacert
-        pkgs.git
-        pkgs.gitAndTools.tig
-    ];
 in
-
 with pkgs;
+let
+  elasticsearch134 =
+  # derivation taken from https://github.com/NixOS/nixpkgs/blob/18476acaff1308adc120c686de2094ef86d9d61d/pkgs/servers/search/elasticsearch/default.nix
+    with stdenv.lib;
+    stdenv.mkDerivation rec {
 
-rec {
+      name = "elasticsearch-1.3.4";
+      src = fetchurl {
+        url = "https://download.elasticsearch.org/elasticsearch/elasticsearch/${name}.tar.gz";
+        sha256 = "18af629c388b442bc8daa39754ea1f39a606acd7647fe042aed79ef014a7d330";
+      };
 
-  policycompass-env = stdenv.mkDerivation {
-    name = "policycompass";
-    buildInputs = [ policycompass ];
-  };
+  #    yves: this only removes the default value for esHome I guess we can do it without that patch
+  #    patches = [ ./es-home.patch ];
 
-  # install dependencies
-  policycompass = buildEnv {
-    name = "policycompass";
-    paths = [
-        python34env
-        supervisordev34
-        nginx
-        devtools
-        policycompass_service
-        policycompass_adhocracy
-        policycompass_frontend
-        tests
-        ];
-  };
+      buildInputs = [ makeWrapper jre ] ++
+        (if (!stdenv.isDarwin) then [utillinux] else [getopt]);
 
-  policycompass_service = buildEnv {
-    name = "policycompass_service";
-    paths = [
-        postgresql93
-        ];
-  };
+      installPhase = ''
+        mkdir -p $out
+        cp -R bin config lib $out
+        # don't want to have binary with name plugin
+        mv $out/bin/plugin $out/bin/elasticsearch-plugin
+        # set ES_CLASSPATH and JAVA_HOME
+        wrapProgram $out/bin/elasticsearch \
+          --prefix ES_CLASSPATH : "$out/lib/${name}.jar":"$out/lib/*":"$out/lib/sigar/*" \
+          ${if (!stdenv.isDarwin)
+            then ''--prefix PATH : "${utillinux}/bin/"''
+            else ''--prefix PATH : "${getopt}/bin"''} \
+          --set JAVA_HOME "${jre}"
+        wrapProgram $out/bin/elasticsearch-plugin \
+          --prefix ES_CLASSPATH : "$out/lib/${name}.jar":"$out/lib/*":"$out/lib/sigar/*" \
+          --set JAVA_HOME "${jre}"
+      '';
 
-  policycompass_adhocracy = buildEnv {
-    name = "policycompass_adhocracy";
-    paths = [
-        ruby
-        graphviz
-        ];
-  };
-
-  policycompass_frontend = buildEnv {
-    name = "policycompass_frontend";
-    paths = [
-        nodejs
-        ];
-  };
-
-  tests = buildEnv {
-    name = "tests";
-    paths = [
-        phantomjs
-        ];
-  };
-
-  nodejs-env = buildEnv {
-    name = "nodejs-env";
-    paths = [
-        nodejs
-        ];
-  };
-
-  python34env = buildEnv {
-    name = "Python34Env";
-    paths = [
+      meta = {
+        description = "Open Source, Distributed, RESTful Search Engine";
+        license = stdenv.lib.licenses.asl20;
+        platforms = platforms.unix;
+      };
+    };
+in
+let
+   python34env = [
         libxml2
         libxslt
         libzip
@@ -85,17 +61,41 @@ rec {
         sqlite
         stdenv
         zlib
-        ];
-  };
+   ];
 
-  meld334 = python34Packages.buildPythonPackage {
-     name = "meld3-1.0.0";
-     buildInputs = [ python34 ];
-     src = pkgs.fetchurl {
-        url = https://pypi.python.org/packages/source/m/meld3/meld3-1.0.0.tar.gz;
-        sha256 = "57b41eebbb5a82d4a928608962616442e239ec6d611fe6f46343e765e36f0b2b";
+   devtools = [
+        cacert
+        git
+        gitAndTools.tig
+    ];
+
+    # install dependencies
+    adhocracy_dependencies = [
+        ruby
+        graphviz
+    ];
+
+    services_dependencies = [
+        postgresql93
+        elasticsearch134
+   ];
+
+   frontend_dependencies = [
+        nodejs
+   ];
+
+   test_dependencies = [
+        phantomjs
+   ];
+
+   meld334 = python34Packages.buildPythonPackage {
+   name = "meld3-1.0.0";
+           buildInputs = [ python34 ];
+           src = pkgs.fetchurl {
+           url = https://pypi.python.org/packages/source/m/meld3/meld3-1.0.0.tar.gz;
+           sha256 = "57b41eebbb5a82d4a928608962616442e239ec6d611fe6f46343e765e36f0b2b";
+        };
      };
-  };
 
   supervisordev34 = python34Packages.buildPythonPackage {
      name = "supervisordev34";
@@ -115,4 +115,20 @@ rec {
        md5 = "905fe91ad14b912807e8fdc2ac2e2c23";
      };
    });
+
+  in
+{
+  policycompass = buildEnv {
+    name = "policycompass";
+    paths = [
+        python34env
+        supervisordev34
+        nginx
+        devtools
+        services_dependencies
+        adhocracy_dependencies
+        frontend_dependencies
+        test_dependencies
+        ];
+  };
 }
