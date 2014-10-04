@@ -9,10 +9,7 @@ all: update_repros nix_build test_pyvenv test_install frontend_install services_
 
 # recursivly checkout all submodules master branches
 update_repros:
-	git submodule init
-	git submodule update --recursive
-	git submodule foreach --recursive git submodule init
-	git submodule foreach --recursive git submodule update
+	git submodule update --init --recursive
 	git submodule foreach --recursive git checkout master
 	git pull --recurse-submodules
 
