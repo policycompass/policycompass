@@ -5,7 +5,7 @@ export PATH := $(PWD)/nix/env/bin:$(PATH)
 # setup ssl certificate paths for git in nix env (this is an issue of nix)
 export GIT_SSL_CAINFO := $(PWD)/nix/env/etc/ca-bundle.crt
 
-all: update_repros nix_build test_pyvenv test_install frontend_install services_pyvenv postgres_init services_install
+all: update_repros nix_build test_pyvenv test_install frontend_install services_pyvenv postgres_init services_install fcmmanager_install
 
 # recursivly checkout all submodules master branches
 update_repros:
@@ -69,15 +69,21 @@ adhocracy_install: adhocracy3 nix_build adhocracy3_pyenv
 	cd adhocracy3 && ./bin/buildout
 
 postgres_init:
-	[ -f var/lib/postgres/PG_VERSION ] || \
+	if [ ! -f var/lib/postgres/PG_VERSION ]; then \
 		initdb var/lib/postgres &&\
 		pg_ctl start -D var/lib/postgres -o "-c config_file=etc/postgres/postgresql.conf" &&\
 		sleep 2 &&\
 		createuser --no-superuser --no-createrole --no-createdb  pcompass &&\
-		createdb -e pcompass -E UTF-8 --owner=pcompass
-		pg_ctl stop -D var/lib/postgres
+		createdb -e pcompass -E UTF-8 --owner=pcompass &&\
+		pg_ctl stop -D var/lib/postgres;\
+	fi
+
+export CATALINA_HOME := $(CURDIR)/var/lib/tomcat
+fcmmanager_install:
+	[ -f  policycompass-fcmmanager/src/main/resources/hibernate.cfg.xml ] || cp policycompass-fcmmanager/src/main/resources/hibernate.cfg.template.xml policycompass-fcmmanager/src/main/resources/hibernate.cfg.xml
+	cd policycompass-fcmmanager && mvn clean install
 
 print-python-syspath:
 	./bin/python -c 'import sys,pprint;pprint.pprint(sys.path)'
 
-.PHONY: print-python-syspath test_install test_pyvenv frontend_install nix_build adhocracy_install adhocracy3_pyenv postgres_init all
+.PHONY: print-python-syspath test_install test_pyvenv frontend_install nix_build adhocracy_install adhocracy3_pyenv postgres_init fcmmanager_install all
