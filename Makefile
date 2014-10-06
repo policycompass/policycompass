@@ -5,7 +5,7 @@ export PATH := $(PWD)/nix/env/bin:$(PATH)
 # setup ssl certificate paths for git in nix env (this is an issue of nix)
 export GIT_SSL_CAINFO := $(PWD)/nix/env/etc/ca-bundle.crt
 
-all: update_repros nix_build test_pyvenv test_install frontend_install services_pyvenv services_install
+all: update_repros nix_build test_pyvenv test_install frontend_install services_pyvenv postgres_init services_install
 
 # recursivly checkout all submodules master branches
 update_repros:
@@ -68,8 +68,16 @@ adhocracy_install: adhocracy3 nix_build adhocracy3_pyenv
 	cd adhocracy3 && ./bin/python ./bootstrap.py
 	cd adhocracy3 && ./bin/buildout
 
+postgres_init:
+	[ -f var/lib/postgres/PG_VERSION ] || \
+		initdb var/lib/postgres &&\
+		pg_ctl start -D var/lib/postgres -o "-c config_file=etc/postgres/postgresql.conf" &&\
+		sleep 2 &&\
+		createuser --no-superuser --no-createrole --no-createdb  pcompass &&\
+		createdb -e pcompass -E UTF-8 --owner=pcompass
+		pg_ctl stop -D var/lib/postgres
+
 print-python-syspath:
 	./bin/python -c 'import sys,pprint;pprint.pprint(sys.path)'
 
-
-.PHONY: print-python-syspath test_install test_pyvenv frontend_install nix_build adhocracy_install adhocracy3_pyenv all
+.PHONY: print-python-syspath test_install test_pyvenv frontend_install nix_build adhocracy_install adhocracy3_pyenv postgres_init all
