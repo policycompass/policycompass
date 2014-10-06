@@ -45,8 +45,55 @@ let
         platforms = platforms.unix;
       };
     };
-in
-let
+
+   maven =
+       stdenv.mkDerivation {
+           name = "apache-maven-3.2.3";
+           builder = ./builder.maven.sh;
+
+           src = fetchurl {
+               url = mirror://apache/maven/maven-3/3.2.3/binaries/apache-maven-3.2.3-bin.tar.gz;
+               sha256 = "1vd81bhj68mhnkb0zlarshlk61i2n160pyxxmrc739p3vsm08gxz";
+           };
+
+           buildInputs = [ makeWrapper ];
+
+           inherit jdk;
+           meta = with stdenv.lib; {
+               description = "Build automation tool (used primarily for Java projects)";
+               homepage = http://maven.apache.org/;
+               license = licenses.asl20;
+          };
+       };
+
+   tomcat7 = let
+       versionMajor = "7";
+       versionMinor = "0.55";
+       sha256 = "c20934fda63bc7311e2d8e067d67f886890c8be72280425c5f6f8fdd7a376c15";
+       in let
+       version = "${versionMajor}.${versionMinor}";
+       in
+       stdenv.mkDerivation rec {
+           name = "apache-tomcat-${version}";
+           src = fetchurl {
+               url = "mirror://apache/tomcat/tomcat-${versionMajor}/v${version}/bin/${name}.tar.gz";
+               inherit sha256;
+           };
+
+           installPhase =
+           ''
+              mkdir $out
+              mv * $out
+           '';
+
+           meta = {
+              homepage = http://tomcat.apache.org/;
+              description = "An implementation of the Java Servlet and JavaServer Pages technologies";
+           };
+       };
+
+
+in let
    python34env = [
         libxml2
         libxslt
@@ -78,6 +125,9 @@ let
     services_dependencies = [
         postgresql93
         elasticsearch134
+        openjdk
+        tomcat7
+        maven
    ];
 
    frontend_dependencies = [
