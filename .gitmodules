@@ -4,3 +4,6 @@
 [submodule "policycompass-frontend"]
 	path = policycompass-frontend
 	url = git@github.com:policycompass/policycompass-frontend.git
+[submodule "policycompass-fcmmanager"]
+	path = policycompass-fcmmanager
+	url = git@github.com:policycompass/policycompass-fcmmanager.git
