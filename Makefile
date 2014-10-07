@@ -11,7 +11,7 @@ all: update_repros nix_build test_pyvenv test_install frontend_install services_
 update_repros:
 	git submodule update --init --recursive
 	git submodule foreach --recursive git checkout master
-	git pull --recurse-submodules
+	git submodule foreach --recursive git pull
 
 nix_build:
 	. ~/.nix-profile/etc/profile.d/nix.sh ;\
