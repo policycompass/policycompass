@@ -383,3 +383,9 @@ node.name: "policycompass-es-node1"
 # it unless you need it is recommended (it is disabled by default).
 #
 #http.jsonp.enable: true
+
+# Enable CORS
+
+http.cors.enabled: true
+http.cors.allow-headers: X-Requested-With, Content-Type, Content-Length, Authorization
+http.cors.allow-origin: "*"
