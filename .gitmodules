@@ -7,3 +7,6 @@
 [submodule "policycompass-fcmmanager"]
 	path = policycompass-fcmmanager
 	url = git@github.com:policycompass/policycompass-fcmmanager.git
+[submodule "carneades"]
+	path = carneades
+	url = git@github.com:carneades/carneades.git
