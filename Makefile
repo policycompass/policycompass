@@ -73,6 +73,9 @@ carneades_install:
 	gem install --user compass&&\
 	./carneades/src/CarneadesWeb/scripts/build_war.sh --deploy $(shell pwd)/var/lib/tomcat/webapps/carneades.war
 
+carneades_config:
+	@echo "{:projects-directory \""$(shell pwd)"/carneades/projects\"}" > .carneades.clj
+
 postgres_init:
 	if [ ! -f var/lib/postgres/PG_VERSION ]; then \
 		initdb var/lib/postgres &&\
