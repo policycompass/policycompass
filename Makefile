@@ -70,6 +70,7 @@ adhocracy_install: adhocracy3 nix_build adhocracy3_pyenv
 
 carneades_install:
 	export PATH=$(PATH):`(gem env gempath | cut -d ':' -f 2 )`/bin&&\
+	mkdir -p var/lib/tomcat/webapps&&\
 	gem install --user compass&&\
 	./carneades/src/CarneadesWeb/scripts/build_war.sh --deploy $(shell pwd)/var/lib/tomcat/webapps/carneades.war
 
