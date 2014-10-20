@@ -122,6 +122,13 @@ in let
         graphviz
     ];
 
+    carneades_dependencies = [
+        ruby
+        nodejs
+        openjdk
+        leiningen
+    ];
+
     services_dependencies = [
         postgresql93
         elasticsearch134
@@ -177,6 +184,7 @@ in let
         devtools
         services_dependencies
         adhocracy_dependencies
+        carneades_dependencies
         frontend_dependencies
         test_dependencies
         ];

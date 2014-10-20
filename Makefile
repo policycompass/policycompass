@@ -68,6 +68,15 @@ adhocracy_install: adhocracy3 nix_build adhocracy3_pyenv
 	cd adhocracy3 && ./bin/python ./bootstrap.py
 	cd adhocracy3 && ./bin/buildout
 
+carneades_install:
+	export PATH=$(PATH):`(gem env gempath | cut -d ':' -f 2 )`/bin&&\
+	mkdir -p var/lib/tomcat/webapps&&\
+	gem install --user compass&&\
+	./carneades/src/CarneadesWeb/scripts/build_war.sh --deploy $(shell pwd)/var/lib/tomcat/webapps/carneades.war
+
+carneades_config:
+	@echo "{:projects-directory \""$(shell pwd)"/carneades/projects\"}" > .carneades.clj
+
 postgres_init:
 	if [ ! -f var/lib/postgres/PG_VERSION ]; then \
 		initdb var/lib/postgres &&\
