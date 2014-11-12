@@ -37,7 +37,7 @@ frontend_install:
 	cd policycompass-frontend/ ;\
 	npm install ;\
 	yes n | node_modules/.bin/bower install ;\
-	echo '{"PC_SERVICES_URL": "http://localhost:9000"}' > development.json ;\
+	echo '{"PC_SERVICES_URL": "http://localhost:9000", "FCM_SERVICES_URL": "http://localhost:10080"}' > development.json ;\
 	cd ..
 
 services_pyvenv:
