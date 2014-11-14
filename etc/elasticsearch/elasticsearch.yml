@@ -387,5 +387,5 @@ node.name: "policycompass-es-node1"
 # Enable CORS
 
 http.cors.enabled: true
-http.cors.allow-headers: X-Requested-With, Content-Type, Content-Length, Authorization
+http.cors.allow-headers: X-Requested-With, Content-Type, Content-Length, Authorization, X-User-Path, X-User-Token
 http.cors.allow-origin: "*"
