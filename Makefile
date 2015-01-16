@@ -50,7 +50,7 @@ services_install:
 	cd policycompass-services/ ;\
 	./bin/pip3.4 install --upgrade wheel ;\
 	./bin/pip3.4 install --download-cache ../cache/downloads -r requirements.txt ;\
-	cp config/settings.sample.py config/settings.py ;\
+	cp ../etc/services-settings.py config/settings.py ;\
 	bin/python3.4 manage.py migrate ;\
 	bin/python3.4 manage.py loaddata metrics events common references visualizations;\
 
