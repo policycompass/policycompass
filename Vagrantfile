@@ -5,7 +5,7 @@ VAGRANTFILE_API_VERSION = "2"
 
 PROVISION_ROOT = <<eof
    set -e
-   make -C /home/vagrant/adhocracy3 install_deps
+   make -C /home/vagrant/policycompass install_deps
 eof
 
 PROVISION_USER = <<eof
