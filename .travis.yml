@@ -1,0 +1,8 @@
+language: python
+python:
+  - "3.4"
+install:
+  - sudo apt-get -y update
+  - sudo apt-get -y install libxml2 libxslt1.1 libzip2 python-virtualenv pyflakes sqlite build-essential zlibc curl file git ruby nodejs npm phantomjs leiningen maven tomcat7 openjdk-7-jdk supervisor nginx
+script:
+  make
