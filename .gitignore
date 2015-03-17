@@ -7,5 +7,6 @@ lib64
 pyvenv.cfg
 nix/
 cache/downloads
+cache/wheels
 var/
 bin/
