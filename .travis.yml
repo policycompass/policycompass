@@ -3,7 +3,8 @@ python:
   - "3.4"
 git:
     submodules: false # Handle git submodules yourself
-
+notifications:
+  email: false
 before_install:
     # Use sed to replace the SSH URL with the public URL, then initialize submodules
     - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
