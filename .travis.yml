@@ -7,6 +7,8 @@ git:
     submodules: false # Handle git submodules yourself
 before_install:
     - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules # Use sed to replace the ssh url with public https url
+    - export DISPLAY=:10
+    - sudo Xvfb ${DISPLAY} -ac &
 notifications:
   email: false
 install:
