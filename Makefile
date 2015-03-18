@@ -42,6 +42,7 @@ update_repros:
 bin/python3.4:
 	virtualenv --python=$(PYTHON_EXECUTABLE) .
 	./bin/pip3.4 install --download-cache ./cache/downloads -r requirements.txt
+	./bin/pip3.4 install wheel
 	./bin/pip3.4 wheel --wheel-dir=./cache/wheels -r requirements.txt
 
 test_install: bin/python3.4
