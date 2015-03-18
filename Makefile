@@ -40,7 +40,7 @@ update_repros:
 	git submodule foreach git pull
 
 bin/python3.4:
-	virtualenv --python=/usr/bin/python3.4 .
+	virtualenv --python=$(PYTHON_EXECUTABLE) .
 	./bin/pip3.4 install --download-cache ./cache/downloads -r requirements.txt
 	./bin/pip3.4 wheel --wheel-dir=./cache/wheels -r requirements.txt
 
