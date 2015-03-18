@@ -2,6 +2,7 @@ all: update_repros test_install frontend_install postgres_init services_install 
 
 PYTHON_EXECUTABLE=$(shell which python3.4)
 CATALINA_EXECUTABLE=/usr/share/tomcat7/bin/catalina.sh
+POSTGRES_DEDICATED=true
 
 #
 # Install dependencies from ubtunut sources (needs to be run with root)
@@ -93,6 +94,7 @@ carneades_config:
 	@echo "{:projects-directory \""$(CURDIR)"/carneades/projects\"}" > .carneades.clj
 
 postgres_init:
+ifeq ($(POSTGRES_DEDICATED), true)
 	if [ ! -f var/lib/postgres/PG_VERSION ]; then \
 		initdb var/lib/postgres &&\
 		pg_ctl start -D var/lib/postgres -o "-c config_file=etc/postgres/postgresql.conf" &&\
@@ -101,6 +103,10 @@ postgres_init:
 		createdb -e pcompass -E UTF-8 --owner=pcompass &&\
 		pg_ctl stop -D var/lib/postgres;\
 	fi
+else
+	psql -c "create user pcompass with unencrypted password 'pcompass';" -U postgres
+	psql -c "create database pcompass owner pcompass;" -U postgres
+endif
 
 export CATALINA_HOME := $(CURDIR)/var/lib/tomcat
 fcmmanager_install:
