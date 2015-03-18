@@ -1,6 +1,13 @@
 language: python
 python:
   - "3.4"
+git:
+    submodules: false # Handle git submodules yourself
+
+before_install:
+    # Use sed to replace the SSH URL with the public URL, then initialize submodules
+    - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+    - git submodule update --init --recursive
 install:
   - sudo apt-get -y update
   - sudo apt-get -y install libxml2 libxslt1.1 libzip2 python-virtualenv pyflakes sqlite build-essential zlibc curl file git ruby nodejs npm phantomjs leiningen maven tomcat7 openjdk-7-jdk supervisor nginx
