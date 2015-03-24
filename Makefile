@@ -2,21 +2,23 @@ all: update_repros test_install frontend_install postgres_init services_install 
 
 PYTHON_EXECUTABLE=$(shell which python3.4)
 CATALINA_EXECUTABLE=/usr/share/tomcat7/bin/catalina.sh
+ELASTICSEARCH_EXECUTABLE=/usr/share/elasticsearch/bin/elasticsearch
 POSTGRES_DEDICATED=true
 
 #
 # Install dependencies from ubtunut sources (needs to be run with root)
 #
 
-install_deps: install_deps_ubuntu install_elasticsearch_ubuntu install_workaround_symlink
+install_deps: install_deps_ubuntu install_elasticsearch_ubuntu /usr/bin/node
 
 # list of packages for ubuntu 14.04 lts
 UBUNTU_PACKAGES= maven tomcat7 libxml2 libxslt1.1 libzip2 python3 python3-pil python3-pip		\
 	         python-virtualenv python3-ipdb python3-pep8 pyflakes sqlite build-essential zlibc	\
-	         curl file git ruby nodejs npm leiningen openjdk-7-jdk phantomjs supervisor nginx
+	         curl file git ruby ruby-dev nodejs npm leiningen openjdk-7-jdk phantomjs		\
+	         supervisor nginx postgresql
 
-install_workaround_symlink:
-	ln -sf /usr/bin/nodejs ../node
+/usr/bin/node:
+	ln -srf /usr/bin/nodejs /usr/bin/node
 
 install_deps_ubuntu:
 	apt-get -y update
@@ -62,6 +64,7 @@ policycompass-services/bin/python3.4:
 	virtualenv --python=$(PYTHON_EXECUTABLE) policycompass-services
 
 services_install: policycompass-services/bin/python3.4
+	ln -sf $(ELASTICSEARCH_EXECUTABLE) bin/elasticsearch
 	policycompass-services/bin/pip3.4 install --upgrade wheel
 	policycompass-services/bin/pip3.4 install --download-cache cache/downloads -r policycompass-services/requirements.txt
 	cp etc/services-settings.py policycompass-services/config/settings.py
