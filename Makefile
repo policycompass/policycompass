@@ -20,7 +20,7 @@ UBUNTU_PACKAGES= maven tomcat7 libxml2 libxslt1.1 libzip2 python3 python3-pil py
 	         supervisor nginx postgresql
 
 /usr/bin/node:
-	ln -srf /usr/bin/nodejs /usr/bin/node
+	ln -sf /usr/bin/nodejs /usr/bin/node
 
 install_deps_ubuntu:
 	apt-get -y update
@@ -94,7 +94,7 @@ adhocracy3_install: adhocracy3/bin/buildout
 	cd adhocracy3 && bin/buildout
 
 carneades_install:
-	ln -srf $(CATALINA_EXECUTABLE) ./bin/catalina.sh
+	ln -sf $(CATALINA_EXECUTABLE) ./bin/catalina.sh
 	export PATH=$(PATH):`(gem env gempath | cut -d ':' -f 2 )`/bin &&\
 	mkdir -p var/lib/tomcat/webapps &&\
 	gem install --user-install compass &&\
@@ -104,7 +104,7 @@ carneades_config:
 	@echo "{:projects-directory \""$(CURDIR)"/carneades/projects\"}" > .carneades.clj
 
 postgres_init:
-	ln -srf $(POSTGRES_EXECUTABLE) bin/postgres
+	ln -sf $(POSTGRES_EXECUTABLE) bin/postgres
 ifeq ($(POSTGRES_DEDICATED), true)
 	if [ ! -f var/lib/postgres/PG_VERSION ]; then \
 		initdb var/lib/postgres &&\
