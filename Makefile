@@ -4,8 +4,11 @@ PYTHON_EXECUTABLE=$(shell which python3.4)
 CATALINA_EXECUTABLE=/usr/share/tomcat7/bin/catalina.sh
 ELASTICSEARCH_EXECUTABLE=/usr/share/elasticsearch/bin/elasticsearch
 ELASTICSEARCH_INCLUDES=/usr/share/elasticsearch/bin/elasticsearch.in.sh
+# should a postgres be started and where is the postgres executable
 POSTGRES_DEDICATED=true
 POSTGRES_EXECUTABLE=/usr/lib/postgresql/9.3/bin/postgres
+# python executable used by node-gyp
+GYPPYTHON_EXECUTABLE=$(shell which python2)
 
 #
 # Install dependencies from ubtunut sources (needs to be run with root)
@@ -59,7 +62,7 @@ test_install: cache/wheels bin/wheel bin/python3.4
 	./bin/pip3.4 install --no-index --find-links=./cache/wheels -r requirements.txt
 
 frontend_install:
-	cd policycompass-frontend && npm install
+	cd policycompass-frontend && npm install --python=$(GYPPYTHON_EXECUTABLE)
 	cd policycompass-frontend && yes n | node_modules/.bin/bower install
 	echo '{"PC_SERVICES_URL": "http://localhost:8000", "FCM_SERVICES_URL": "http://localhost:10080", "ELASTIC_SEARCH_URL": "http://localhost:9200"}' > policycompass-frontend/development.json
 
