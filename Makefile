@@ -3,6 +3,7 @@ all: update_repros test_install frontend_install postgres_init services_install 
 PYTHON_EXECUTABLE=$(shell which python3.4)
 CATALINA_EXECUTABLE=/usr/share/tomcat7/bin/catalina.sh
 ELASTICSEARCH_EXECUTABLE=/usr/share/elasticsearch/bin/elasticsearch
+ELASTICSEARCH_INCLUDES=/usr/share/elasticsearch/bin/elasticsearch.in.sh
 POSTGRES_DEDICATED=true
 
 #
@@ -65,6 +66,7 @@ policycompass-services/bin/python3.4:
 
 services_install: policycompass-services/bin/python3.4
 	ln -sf $(ELASTICSEARCH_EXECUTABLE) bin/elasticsearch
+	ln -sf $(ELASTICSEARCH_INCLUDES) bin/elasticsearch.in.sh
 	policycompass-services/bin/pip3.4 install --upgrade wheel
 	policycompass-services/bin/pip3.4 install --download-cache cache/downloads -r policycompass-services/requirements.txt
 	cp etc/services-settings.py policycompass-services/config/settings.py
