@@ -79,7 +79,7 @@ services_install: policycompass-services/bin/python3.4
 	cd policycompass-services && bin/python3.4 manage.py loaddata metrics events common references visualizations
 
 adhocracy3:
-	git clone git@github.com:liqd/adhocracy3.git
+	git clone https://github.com/liqd/adhocracy3.git
 
 adhocracy3_git: adhocracy3
 	cd adhocracy3 &&\
