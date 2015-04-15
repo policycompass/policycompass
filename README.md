@@ -62,7 +62,9 @@ Install dependency services:
 
     Read the README files in the subproject directories (./policycompass-*).
 
+## API Documentation 
 
+The API documentation for all the Policy Compass services can be found [here](https://github.com/policycompass/policycompass/wiki/Policy-Compass-REST-API-Documentation).
 ## Testing
 
 Acceptance tests for the frontend webapplication and
