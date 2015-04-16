@@ -1,0 +1,20 @@
+language: python
+python:
+  - "3.4"
+addons:
+  postgresql: "9.3"
+git:
+    submodules: false # Handle git submodules yourself
+before_install:
+    - export DISPLAY=:10
+    - sudo Xvfb ${DISPLAY} -ac &
+notifications:
+  email: false
+install:
+  - sudo apt-get -y update
+  - sudo apt-get -y install libxml2 libxslt1.1 libzip2 python-virtualenv pyflakes sqlite build-essential zlibc curl file git ruby nodejs npm phantomjs leiningen maven tomcat7 openjdk-7-jdk supervisor nginx
+  - make POSTGRES_DEDICATED=false GYPPYTHON_EXECUTABLE=/usr/bin/python2
+script:
+  - bin/python tests-mock-services/example-service.py &
+  - bin/py.test tests-acceptance-frontend
+  - bin/py.test tests-api-services
