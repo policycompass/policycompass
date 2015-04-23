@@ -29,9 +29,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   config.vm.synced_folder ".", "/home/vagrant/policycompass"
 
+  # nginx
+  config.vm.network :forwarded_port, guest: 1080, host: 1080
+  # services-dev
+  config.vm.network :forwarded_port, guest: 8000, host: 8000
+  # frontend
+  config.vm.network :forwarded_port, guest: 9000, host: 9000
+  # adhocracy backend + frontend + autobahn
   config.vm.network :forwarded_port, guest: 6541, host: 6541
   config.vm.network :forwarded_port, guest: 6551, host: 6551
   config.vm.network :forwarded_port, guest: 8080, host: 8080
+  # elastic search
+  config.vm.network :forwarded_port, guest: 9200, host: 9200
+  # carneades
+  config.vm.network :forwarded_port, guest: 10080, host: 10080
 
   config.vm.provision :shell, inline: PROVISION_ROOT
   config.vm.provision :shell, inline: PROVISION_USER, :privileged => false

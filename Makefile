@@ -79,7 +79,7 @@ services_install: policycompass-services/bin/python3.4
 	cd policycompass-services && bin/python3.4 manage.py loaddata metrics events common references visualizations
 
 adhocracy3:
-	git clone git@github.com:liqd/adhocracy3.git
+	git clone https://github.com/liqd/adhocracy3.git
 
 adhocracy3_git: adhocracy3
 	cd adhocracy3 &&\
@@ -123,9 +123,15 @@ else
 endif
 
 export CATALINA_HOME := $(CURDIR)/var/lib/tomcat
+ifeq ($(POSTGRES_DEDICATED), true)
+export POSTGRES_URI := postgresql://localhost:5433/pcompass
+else
+export POSTGRES_URI := postgresql://localhost:5432/pcompass
+endif
+
 fcmmanager_install:
 	ln -sf $(CATALINA_EXECUTABLE) ./bin/catalina.sh
-	[ -f  policycompass-fcmmanager/src/main/resources/hibernate.cfg.xml ] || cp policycompass-fcmmanager/src/main/resources/hibernate.cfg.template.xml policycompass-fcmmanager/src/main/resources/hibernate.cfg.xml
+	sed 's#postgresql://localhost:5432/pcompass#$(POSTGRES_URI)#' policycompass-fcmmanager/src/main/resources/hibernate.cfg.template.xml > policycompass-fcmmanager/src/main/resources/hibernate.cfg.xml
 	cd policycompass-fcmmanager && mvn clean install
 
 .PHONY: test_install frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install all install_deps install_elasticsearch_ubuntu install_deps_ubuntu
