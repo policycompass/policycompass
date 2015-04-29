@@ -111,7 +111,7 @@ postgres_init:
 ifeq ($(POSTGRES_DEDICATED), true)
 	if [ ! -f var/lib/postgres/PG_VERSION ]; then \
 		/usr/lib/postgresql/9.3/bin/initdb var/lib/postgres &&\
-		/usr/lib/postgresql/9.3/bin/pg_ctl start -D var/lib/postgres -o "-c config_file=etc/postgres/postgresql.conf" &&\
+		/usr/lib/postgresql/9.3/bin/pg_ctl start -D var/lib/postgres -o "-c config_file=etc/postgres/postgresql.conf -c unix_socket_directories=''" &&\
 		sleep 2 &&\
 		createuser -h localhost -p 5433 --no-superuser --no-createrole --no-createdb  pcompass &&\
 		createdb -h localhost -p 5433 -e pcompass -E UTF-8 --owner=pcompass &&\
