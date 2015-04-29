@@ -134,4 +134,8 @@ fcmmanager_install:
 	sed 's#postgresql://localhost:5432/pcompass#$(POSTGRES_URI)#' policycompass-fcmmanager/src/main/resources/hibernate.cfg.template.xml > policycompass-fcmmanager/src/main/resources/hibernate.cfg.xml
 	cd policycompass-fcmmanager && mvn clean install
 
-.PHONY: test_install frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install all install_deps install_elasticsearch_ubuntu install_deps_ubuntu
+fcmmanager_loaddata:
+	curl http://localhost:10080/api/v1/fcmmanager/loaddata
+
+
+.PHONY: test_install frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu
