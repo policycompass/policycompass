@@ -113,8 +113,8 @@ ifeq ($(POSTGRES_DEDICATED), true)
 		/usr/lib/postgresql/9.3/bin/initdb var/lib/postgres &&\
 		/usr/lib/postgresql/9.3/bin/pg_ctl start -D var/lib/postgres -o "-c config_file=etc/postgres/postgresql.conf" &&\
 		sleep 2 &&\
-		createuser --no-superuser --no-createrole --no-createdb  pcompass &&\
-		createdb -e pcompass -E UTF-8 --owner=pcompass &&\
+		createuser -h localhost -p 5433 --no-superuser --no-createrole --no-createdb  pcompass &&\
+		createdb -h localhost -p 5433 -e pcompass -E UTF-8 --owner=pcompass &&\
 		/usr/lib/postgresql/9.3/bin/pg_ctl stop -D var/lib/postgres;\
 	fi
 else
