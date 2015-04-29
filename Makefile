@@ -110,12 +110,12 @@ postgres_init:
 	ln -sf $(POSTGRES_EXECUTABLE) bin/postgres
 ifeq ($(POSTGRES_DEDICATED), true)
 	if [ ! -f var/lib/postgres/PG_VERSION ]; then \
-		initdb var/lib/postgres &&\
-		pg_ctl start -D var/lib/postgres -o "-c config_file=etc/postgres/postgresql.conf" &&\
+		/usr/lib/postgresql/9.3/bin/initdb var/lib/postgres &&\
+		/usr/lib/postgresql/9.3/bin/pg_ctl start -D var/lib/postgres -o "-c config_file=etc/postgres/postgresql.conf" &&\
 		sleep 2 &&\
 		createuser --no-superuser --no-createrole --no-createdb  pcompass &&\
 		createdb -e pcompass -E UTF-8 --owner=pcompass &&\
-		pg_ctl stop -D var/lib/postgres;\
+		/usr/lib/postgresql/9.3/bin/pg_ctl stop -D var/lib/postgres;\
 	fi
 else
 	psql -c "create user pcompass with unencrypted password 'pcompass';" -U postgres
