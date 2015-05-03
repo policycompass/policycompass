@@ -10,3 +10,4 @@ cache/downloads
 cache/wheels
 var/
 bin/
+selenium/
