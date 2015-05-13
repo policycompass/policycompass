@@ -64,6 +64,7 @@ test_install: cache/wheels bin/wheel bin/python3.4
 frontend_install:
 	cd policycompass-frontend && npm install --python=$(GYPPYTHON_EXECUTABLE)
 	cd policycompass-frontend && yes n | node_modules/.bin/bower install
+	cp etc/frontend-config.js policycompass-frontend/app/config.js
 	echo '{"PC_SERVICES_URL": "http://localhost:8000", "FCM_SERVICES_URL": "http://localhost:10080", "ELASTIC_SEARCH_URL": "http://localhost:9200"}' > policycompass-frontend/development.json
 
 policycompass-services/bin/python3.4:
@@ -137,5 +138,9 @@ fcmmanager_install:
 fcmmanager_loaddata:
 	curl http://localhost:10080/api/v1/fcmmanager/loaddata
 
+elasticsearch_rebuildindex:
+	curl -XPOST 'http://localhost:8000/api/v1/searchmanager/rebuildindex'
 
-.PHONY: test_install frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu
+
+
+.PHONY: test_install frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu elasticsearch_rebuildindex
