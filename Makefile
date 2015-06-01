@@ -6,7 +6,8 @@ ELASTICSEARCH_EXECUTABLE=/usr/share/elasticsearch/bin/elasticsearch
 ELASTICSEARCH_INCLUDES=/usr/share/elasticsearch/bin/elasticsearch.in.sh
 # should a postgres be started and where is the postgres executable
 POSTGRES_DEDICATED=true
-POSTGRES_EXECUTABLE=/usr/lib/postgresql/9.3/bin/postgres
+POSTGRES_BIN_PATH=/usr/lib/postgresql/9.3/bin
+POSTGRES_EXECUTABLE=$(POSTGRES_BIN_PATH)/postgres
 # python executable used by node-gyp
 GYPPYTHON_EXECUTABLE=$(shell which python2)
 
@@ -111,12 +112,12 @@ postgres_init:
 	ln -sf $(POSTGRES_EXECUTABLE) bin/postgres
 ifeq ($(POSTGRES_DEDICATED), true)
 	if [ ! -f var/lib/postgres/PG_VERSION ]; then \
-		/usr/lib/postgresql/9.3/bin/initdb var/lib/postgres &&\
-		/usr/lib/postgresql/9.3/bin/pg_ctl start -D var/lib/postgres -o "-c config_file=etc/postgres/postgresql.conf -c unix_socket_directories=''" &&\
+		$(POSTGRES_BIN_PATH)/initdb var/lib/postgres &&\
+		$(POSTGRES_BIN_PATH)/pg_ctl start -D var/lib/postgres -o "-c config_file=etc/postgres/postgresql.conf -c unix_socket_directories=''" &&\
 		sleep 2 &&\
 		createuser -h localhost -p 5433 --no-superuser --no-createrole --no-createdb  pcompass &&\
 		createdb -h localhost -p 5433 -e pcompass -E UTF-8 --owner=pcompass &&\
-		/usr/lib/postgresql/9.3/bin/pg_ctl stop -D var/lib/postgres;\
+		$(POSTGRES_BIN_PATH)/pg_ctl stop -D var/lib/postgres;\
 	fi
 else
 	psql -c "create user pcompass with unencrypted password 'pcompass';" -U postgres
