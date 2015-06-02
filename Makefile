@@ -89,7 +89,7 @@ adhocracy3_git: adhocracy3
 	cd adhocracy3 &&\
 	git fetch -a &&\
 	git checkout $(ADHOCRACY3_COMMIT) &&\
-	git submodule update
+	git submodule update --init
 
 adhocracy3/bin/python3.4: adhocracy3
 	virtualenv --python=$(PYTHON_EXECUTABLE) adhocracy3
