@@ -97,12 +97,17 @@ adhocracy3/bin/buildout: adhocracy3 adhocracy3/bin/python3.4
 adhocracy3_install: adhocracy3/bin/buildout
 	cd adhocracy3 && bin/buildout
 
-carneades_install:
+bin/lein:
+	mkdir -p bin
+	wget https://raw.githubusercontent.com/technomancy/leiningen/2.5.1/bin/lein -O bin/lein
+	chmod +x bin/lein
+
+carneades_install: bin/lein
 	ln -sf $(CATALINA_EXECUTABLE) ./bin/catalina.sh
 	export PATH=$(PATH):`(gem env gempath | cut -d ':' -f 2 )`/bin &&\
 	mkdir -p var/lib/tomcat/webapps &&\
 	gem install --user-install compass &&\
-	./carneades/src/CarneadesWeb/scripts/build_war.sh --deploy $(CURDIR)/var/lib/tomcat/webapps/carneades.war
+	PATH=$(PWD)/bin:$(PATH) ./carneades/src/CarneadesWeb/scripts/build_war.sh --deploy $(CURDIR)/var/lib/tomcat/webapps/carneades.war
 
 carneades_config:
 	@echo "{:projects-directory \""$(CURDIR)"/carneades/projects\"}" > .carneades.clj
