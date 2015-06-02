@@ -94,11 +94,12 @@ adhocracy3_git: adhocracy3
 adhocracy3/bin/python3.4: adhocracy3
 	virtualenv --python=$(PYTHON_EXECUTABLE) adhocracy3
 
-adhocracy3/bin/buildout: adhocracy3 adhocracy3/bin/python3.4
+adhocracy3/bin/buildout: adhocracy3 adhocracy3/bin/python3.4 adhocracy3_git
+	mkdir -p adhocracy3/eggs # needed since buildout sometimes fails to create egg
 	cd adhocracy3 && bin/python3.4 ./bootstrap.py -v 2.3.1 --setuptools-version=12.1
 
 adhocracy3_install: adhocracy3/bin/buildout
-	cd adhocracy3 && bin/buildout
+	cd adhocracy3 && bin/buildout -c buildout-pcompass.cfg
 
 carneades_install:
 	ln -sf $(CATALINA_EXECUTABLE) ./bin/catalina.sh
