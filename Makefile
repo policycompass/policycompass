@@ -11,6 +11,8 @@ POSTGRES_EXECUTABLE=$(POSTGRES_BIN_PATH)/postgres
 # python executable used by node-gyp
 GYPPYTHON_EXECUTABLE=$(shell which python2)
 
+ADHOCRACY3_COMMIT="389156bde56947eb71a0705dabb31316705a8f3d"
+
 #
 # Install dependencies from ubtunut sources (needs to be run with root)
 #
@@ -85,8 +87,8 @@ adhocracy3:
 
 adhocracy3_git: adhocracy3
 	cd adhocracy3 &&\
-	git pull &&\
-	git submodule init &&\
+	git fetch -a &&\
+	git checkout $(ADHOCRACY3_COMMIT) &&\
 	git submodule update
 
 adhocracy3/bin/python3.4: adhocracy3
