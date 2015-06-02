@@ -11,6 +11,8 @@ POSTGRES_EXECUTABLE=$(POSTGRES_BIN_PATH)/postgres
 # python executable used by node-gyp
 GYPPYTHON_EXECUTABLE=$(shell which python2)
 
+ADHOCRACY3_COMMIT="389156bde56947eb71a0705dabb31316705a8f3d"
+
 #
 # Install dependencies from ubtunut sources (needs to be run with root)
 #
@@ -85,18 +87,19 @@ adhocracy3:
 
 adhocracy3_git: adhocracy3
 	cd adhocracy3 &&\
-	git pull &&\
-	git submodule init &&\
-	git submodule update
+	git fetch -a &&\
+	git checkout $(ADHOCRACY3_COMMIT) &&\
+	git submodule update --init
 
 adhocracy3/bin/python3.4: adhocracy3
 	virtualenv --python=$(PYTHON_EXECUTABLE) adhocracy3
 
-adhocracy3/bin/buildout: adhocracy3 adhocracy3/bin/python3.4
+adhocracy3/bin/buildout: adhocracy3 adhocracy3/bin/python3.4 adhocracy3_git
+	mkdir -p adhocracy3/eggs # needed since buildout sometimes fails to create egg
 	cd adhocracy3 && bin/python3.4 ./bootstrap.py -v 2.3.1 --setuptools-version=12.1
 
 adhocracy3_install: adhocracy3/bin/buildout
-	cd adhocracy3 && bin/buildout
+	cd adhocracy3 && bin/buildout -c buildout-pcompass.cfg
 
 carneades_install:
 	ln -sf $(CATALINA_EXECUTABLE) ./bin/catalina.sh
