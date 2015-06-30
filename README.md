@@ -32,7 +32,7 @@ Install dependency services and build shell environment with all development too
 
 Start all installed services and the frontend using supervisord:
 
-    supervisord -c etc/supervisor.conf
+    supervisord -c etc/supervisord.conf
 
 ### Manual installation:
 
