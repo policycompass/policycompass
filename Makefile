@@ -49,7 +49,7 @@ update_repros:
 	git submodule update --init
 	git submodule foreach git checkout master
 	git submodule foreach git pull
-	git submodule foreach "git config remote.origin.pushurl $$(git config --get remote.origin.url | sed 's#https://github.com#git@github.com#')"
+	git submodule foreach 'git config remote.origin.pushurl $$(git config --get remote.origin.url | sed "s#https://github.com/#git@github.com:#")'
 
 bin/python3.4:
 	virtualenv --python=$(PYTHON_EXECUTABLE) .
