@@ -110,8 +110,8 @@ adhocracy3/bin/buildout: adhocracy3 adhocracy3/bin/python3.4 adhocracy3_git
 adhocracy3_install: adhocracy3/bin/buildout
 	cd adhocracy3 && bin/buildout
 ifneq ($(CONFIG_TYPE), dev)
-	ln -sfrT etc/adhocracy/$(CONFIG_SUFFIX)/development.ini $@
-	ln -sfrT etc/adhocracy/$(CONFIG_TYPE)/frontend_development.ini $@
+	ln -sfrT etc/adhocracy/$(CONFIG_TYPE)/development.ini adhocracy3/etc/development.ini
+	ln -sfrT etc/adhocracy/$(CONFIG_TYPE)/frontend_development.ini adhocracy3/etc/frontend_development.ini
 else
 	cd adhocracy3 && git checkout etc/development.ini
 	cd adhocracy3 && git checkout etc/frontend_development.ini
