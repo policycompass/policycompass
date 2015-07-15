@@ -176,4 +176,4 @@ elasticsearch_rebuildindex:
 select_nginx_config:
 	ln -sfrT etc/nginx/$(CONFIG_TYPE)/nginx.conf etc/nginx.conf
 
-.PHONY: test_install frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu elasticsearch_rebuildindex select_nginx_config
+.PHONY: test_install frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu elasticsearch_rebuildindex select_nginx_config adhocracy3/etc/frontend_development.ini adhocracy3/etc/development.ini
