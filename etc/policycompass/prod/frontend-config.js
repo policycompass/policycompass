@@ -8,7 +8,7 @@
  */
 
 // Configuration for remote services
-var remotePolicyCompassConfig = {
+var policyCompassConfig = {
     'URL': '/api/v1',
     'METRICS_MANAGER_URL': 'https://services-dev.policycompass.eu/api/v1/metricsmanager',
     'VISUALIZATIONS_MANAGER_URL': 'https://services-dev.policycompass.eu/api/v1/visualizationsmanager',
@@ -22,4 +22,4 @@ var remotePolicyCompassConfig = {
     'ADHOCRACY_FRONTEND_URL': 'https://adhocracy-frontend-dev.policycompass.eu'
 };
 
-angular.module('pcApp.config', []).constant('API_CONF', remotePolicyCompassConfig);
+angular.module('pcApp.config', []).constant('API_CONF', policyCompassConfig);
