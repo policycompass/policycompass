@@ -107,22 +107,16 @@ adhocracy3/bin/buildout: adhocracy3 adhocracy3/bin/python3.4 adhocracy3_git
 	mkdir -p adhocracy3/eggs # needed since buildout sometimes fails to create egg
 	cd adhocracy3 && bin/python3.4 ./bootstrap.py -v 2.3.1 --setuptools-version=12.1
 
-adhocracy3/etc/frontend_development.ini:
+adhocracy3_install: adhocracy3/bin/buildout
+	cd adhocracy3 && bin/buildout
 ifneq ($(CONFIG_TYPE), dev)
+	ln -sfrT etc/adhocracy/$(CONFIG_SUFFIX)/development.ini $@
 	ln -sfrT etc/adhocracy/$(CONFIG_TYPE)/frontend_development.ini $@
 else
+	cd adhocracy3 && git checkout etc/development.ini
 	cd adhocracy3 && git checkout etc/frontend_development.ini
 endif
 
-adhocracy3/etc/development.ini:
-ifneq ($(CONFIG_TYPE), dev)
-	ln -sfrT etc/adhocracy/$(CONFIG_SUFFIX)/development.ini $@
-else
-	cd adhocracy3 && git checkout etc/development.ini
-endif
-
-adhocracy3_install: adhocracy3/bin/buildout adhocracy3/etc/frontend_development.ini adhocracy3/etc/development.ini
-	cd adhocracy3 && bin/buildout
 
 bin/lein:
 	mkdir -p bin
@@ -176,4 +170,4 @@ elasticsearch_rebuildindex:
 select_nginx_config:
 	ln -sfrT etc/nginx/$(CONFIG_TYPE)/nginx.conf etc/nginx.conf
 
-.PHONY: test_install frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu elasticsearch_rebuildindex select_nginx_config adhocracy3/etc/frontend_development.ini adhocracy3/etc/development.ini
+.PHONY: test_install frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu elasticsearch_rebuildindex select_nginx_config
