@@ -1,4 +1,4 @@
-all: update_repros test_install frontend_install postgres_init services_install fcmmanager_install
+all: update_repros test_install frontend_install postgres_init services_install fcmmanager_install select_nginx_config
 
 PYTHON_EXECUTABLE=$(shell which python3.4)
 CATALINA_EXECUTABLE=/usr/share/tomcat7/bin/catalina.sh
@@ -12,6 +12,15 @@ POSTGRES_EXECUTABLE=$(POSTGRES_BIN_PATH)/postgres
 GYPPYTHON_EXECUTABLE=$(shell which python2)
 
 ADHOCRACY3_COMMIT="389156bde56947eb71a0705dabb31316705a8f3d"
+
+# support different config files for different environments
+ifeq ($(shell hostname),poco-test)
+CONFIG_TYPE ?= stage
+endif
+ifeq ($(shell hostname),poco-live)
+CONFIG_TYPE ?= prod
+endif
+CONFIG_TYPE ?= dev
 
 #
 # Install dependencies from ubtunut sources (needs to be run with root)
@@ -67,7 +76,7 @@ test_install: cache/wheels bin/wheel bin/python3.4
 frontend_install:
 	cd policycompass-frontend && npm install --python=$(GYPPYTHON_EXECUTABLE)
 	cd policycompass-frontend && yes n | node_modules/.bin/bower install
-	cp etc/frontend-config.js policycompass-frontend/app/config.js
+	ln -sfr etc/policycompass/$(CONFIG_TYPE)/frontend-config.js policycompass-frontend/app/config.js
 	echo '{"PC_SERVICES_URL": "http://localhost:8000", "FCM_SERVICES_URL": "http://localhost:10080", "ELASTIC_SEARCH_URL": "http://localhost:9200"}' > policycompass-frontend/development.json
 
 policycompass-services/bin/python3.4:
@@ -78,7 +87,7 @@ services_install: policycompass-services/bin/python3.4
 	ln -sf $(ELASTICSEARCH_INCLUDES) bin/elasticsearch.in.sh
 	policycompass-services/bin/pip3.4 install --upgrade wheel
 	policycompass-services/bin/pip3.4 install --download-cache cache/downloads -r policycompass-services/requirements.txt
-	cp etc/services-settings.py policycompass-services/config/settings.py
+	ln -sfr etc/policycompass/$(CONFIG_TYPE)/services-settings.py policycompass-services/config/settings.py
 	cd policycompass-services && bin/python3.4 manage.py migrate
 	cd policycompass-services && bin/python3.4 manage.py loaddata metrics events common references visualizations
 
@@ -98,8 +107,22 @@ adhocracy3/bin/buildout: adhocracy3 adhocracy3/bin/python3.4 adhocracy3_git
 	mkdir -p adhocracy3/eggs # needed since buildout sometimes fails to create egg
 	cd adhocracy3 && bin/python3.4 ./bootstrap.py -v 2.3.1 --setuptools-version=12.1
 
-adhocracy3_install: adhocracy3/bin/buildout
-	cd adhocracy3 && bin/buildout -c buildout-pcompass.cfg
+adhocracy3/etc/frontend_development.ini:
+ifneq ($(CONFIG_TYPE), dev)
+	ln -srf etc/adhocracy/$(CONFIG_TYPE)/frontend_development.ini $@
+else
+	cd adhocracy3 && git checkout etc/frontend_development.ini
+endif
+
+adhocracy3/etc/development.ini:
+ifneq ($(CONFIG_TYPE), dev)
+	ln -srf etc/adhocracy/$(CONFIG_SUFFIX)/development.ini $@
+else
+	cd adhocracy3 && git checkout etc/development.ini
+endif
+
+adhocracy3_install: adhocracy3/bin/buildout adhocracy3/etc/frontend_development.ini adhocracy3/etc/development.ini
+	cd adhocracy3 && bin/buildout
 
 bin/lein:
 	mkdir -p bin
@@ -150,6 +173,7 @@ fcmmanager_loaddata:
 elasticsearch_rebuildindex:
 	curl -XPOST 'http://localhost:8000/api/v1/searchmanager/rebuildindex'
 
+select_nginx_config:
+	ln -sfr etc/nginx/$(CONFIG_TYPE)/nginx.conf etc/nginx.conf
 
-
-.PHONY: test_install frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu elasticsearch_rebuildindex
+.PHONY: test_install frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu elasticsearch_rebuildindex select_nginx_config
