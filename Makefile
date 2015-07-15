@@ -35,7 +35,7 @@ UBUNTU_PACKAGES= maven tomcat7 libxml2 libxslt1.1 libzip2 python3 python3-pil py
 	         supervisor nginx postgresql
 
 /usr/bin/node:
-	ln -sf /usr/bin/nodejs /usr/bin/node
+	ln -sfrT /usr/bin/nodejs /usr/bin/node
 
 install_deps_ubuntu:
 	apt-get -y update
@@ -76,18 +76,18 @@ test_install: cache/wheels bin/wheel bin/python3.4
 frontend_install:
 	cd policycompass-frontend && npm install --python=$(GYPPYTHON_EXECUTABLE)
 	cd policycompass-frontend && yes n | node_modules/.bin/bower install
-	ln -sfr etc/policycompass/$(CONFIG_TYPE)/frontend-config.js policycompass-frontend/app/config.js
+	ln -sfrT etc/policycompass/$(CONFIG_TYPE)/frontend-config.js policycompass-frontend/app/config.js
 	echo '{"PC_SERVICES_URL": "http://localhost:8000", "FCM_SERVICES_URL": "http://localhost:10080", "ELASTIC_SEARCH_URL": "http://localhost:9200"}' > policycompass-frontend/development.json
 
 policycompass-services/bin/python3.4:
 	virtualenv --python=$(PYTHON_EXECUTABLE) policycompass-services
 
 services_install: policycompass-services/bin/python3.4
-	ln -sf $(ELASTICSEARCH_EXECUTABLE) bin/elasticsearch
-	ln -sf $(ELASTICSEARCH_INCLUDES) bin/elasticsearch.in.sh
+	ln -sfrT $(ELASTICSEARCH_EXECUTABLE) bin/elasticsearch
+	ln -sfrT $(ELASTICSEARCH_INCLUDES) bin/elasticsearch.in.sh
 	policycompass-services/bin/pip3.4 install --upgrade wheel
 	policycompass-services/bin/pip3.4 install --download-cache cache/downloads -r policycompass-services/requirements.txt
-	ln -sfr etc/policycompass/$(CONFIG_TYPE)/services-settings.py policycompass-services/config/settings.py
+	ln -sfrT etc/policycompass/$(CONFIG_TYPE)/services-settings.py policycompass-services/config/settings.py
 	cd policycompass-services && bin/python3.4 manage.py migrate
 	cd policycompass-services && bin/python3.4 manage.py loaddata metrics events common references visualizations
 
@@ -109,14 +109,14 @@ adhocracy3/bin/buildout: adhocracy3 adhocracy3/bin/python3.4 adhocracy3_git
 
 adhocracy3/etc/frontend_development.ini:
 ifneq ($(CONFIG_TYPE), dev)
-	ln -srf etc/adhocracy/$(CONFIG_TYPE)/frontend_development.ini $@
+	ln -sfrT etc/adhocracy/$(CONFIG_TYPE)/frontend_development.ini $@
 else
 	cd adhocracy3 && git checkout etc/frontend_development.ini
 endif
 
 adhocracy3/etc/development.ini:
 ifneq ($(CONFIG_TYPE), dev)
-	ln -srf etc/adhocracy/$(CONFIG_SUFFIX)/development.ini $@
+	ln -sfrT etc/adhocracy/$(CONFIG_SUFFIX)/development.ini $@
 else
 	cd adhocracy3 && git checkout etc/development.ini
 endif
@@ -130,7 +130,7 @@ bin/lein:
 	chmod +x bin/lein
 
 carneades_install: bin/lein
-	ln -sf $(CATALINA_EXECUTABLE) ./bin/catalina.sh
+	ln -srfT $(CATALINA_EXECUTABLE) ./bin/catalina.sh
 	export PATH=$(PATH):`(gem env gempath | cut -d ':' -f 2 )`/bin &&\
 	mkdir -p var/lib/tomcat/webapps &&\
 	gem install --user-install compass &&\
@@ -140,7 +140,7 @@ carneades_config:
 	@echo "{:projects-directory \""$(CURDIR)"/carneades/projects\"}" > .carneades.clj
 
 postgres_init:
-	ln -sf $(POSTGRES_EXECUTABLE) bin/postgres
+	ln -srfT $(POSTGRES_EXECUTABLE) bin/postgres
 ifeq ($(POSTGRES_DEDICATED), true)
 	if [ ! -f var/lib/postgres/PG_VERSION ]; then \
 		$(POSTGRES_BIN_PATH)/initdb var/lib/postgres &&\
@@ -163,7 +163,7 @@ export POSTGRES_URI := postgresql://localhost:5432/pcompass
 endif
 
 fcmmanager_install:
-	ln -sf $(CATALINA_EXECUTABLE) ./bin/catalina.sh
+	ln -sfrT $(CATALINA_EXECUTABLE) ./bin/catalina.sh
 	sed 's#postgresql://localhost:5432/pcompass#$(POSTGRES_URI)#' policycompass-fcmmanager/src/main/resources/hibernate.cfg.template.xml > policycompass-fcmmanager/src/main/resources/hibernate.cfg.xml
 	cd policycompass-fcmmanager && mvn clean install
 
@@ -174,6 +174,6 @@ elasticsearch_rebuildindex:
 	curl -XPOST 'http://localhost:8000/api/v1/searchmanager/rebuildindex'
 
 select_nginx_config:
-	ln -sfr etc/nginx/$(CONFIG_TYPE)/nginx.conf etc/nginx.conf
+	ln -sfrT etc/nginx/$(CONFIG_TYPE)/nginx.conf etc/nginx.conf
 
 .PHONY: test_install frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu elasticsearch_rebuildindex select_nginx_config
