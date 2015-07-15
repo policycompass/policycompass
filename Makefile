@@ -1,4 +1,4 @@
-all: update_repros test_install frontend_install postgres_init services_install fcmmanager_install symlink_config
+all: update_repros test_install frontend_install postgres_init services_install fcmmanager_install select_nginx_config
 
 PYTHON_EXECUTABLE=$(shell which python3.4)
 CATALINA_EXECUTABLE=/usr/share/tomcat7/bin/catalina.sh
@@ -75,8 +75,8 @@ test_install: cache/wheels bin/wheel bin/python3.4
 
 frontend_install:
 	cd policycompass-frontend && npm install --python=$(GYPPYTHON_EXECUTABLE)
-	cd policycompass-frontend && yes n | node_modules/.bin/bower
-	ln -sfr etc/policycompass/$(CONFIG_TYPE)/frontend-config.js installpolicycompass-frontend/app/config.js
+	cd policycompass-frontend && yes n | node_modules/.bin/bower install
+	ln -sfr etc/policycompass/$(CONFIG_TYPE)/frontend-config.js policycompass-frontend/app/config.js
 	echo '{"PC_SERVICES_URL": "http://localhost:8000", "FCM_SERVICES_URL": "http://localhost:10080", "ELASTIC_SEARCH_URL": "http://localhost:9200"}' > policycompass-frontend/development.json
 
 policycompass-services/bin/python3.4:
@@ -87,7 +87,7 @@ services_install: policycompass-services/bin/python3.4
 	ln -sf $(ELASTICSEARCH_INCLUDES) bin/elasticsearch.in.sh
 	policycompass-services/bin/pip3.4 install --upgrade wheel
 	policycompass-services/bin/pip3.4 install --download-cache cache/downloads -r policycompass-services/requirements.txt
-	cp etc/services-settings.py policycompass-services/config/settings.py
+	ln -sfr etc/policycompass/$(CONFIG_TYPE)/services-settings.py policycompass-services/config/settings.py
 	cd policycompass-services && bin/python3.4 manage.py migrate
 	cd policycompass-services && bin/python3.4 manage.py loaddata metrics events common references visualizations
 
@@ -173,8 +173,7 @@ fcmmanager_loaddata:
 elasticsearch_rebuildindex:
 	curl -XPOST 'http://localhost:8000/api/v1/searchmanager/rebuildindex'
 
-symlink_config:
+select_nginx_config:
 	ln -sfr etc/nginx/$(CONFIG_TYPE)/nginx.conf etc/nginx.conf
-	ln -sfr etc/policycompass/$(CONFIG_TYPE)/service-settings.py etc/service-settings.py
 
-.PHONY: test_install frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu elasticsearch_rebuildindex symlink_config
+.PHONY: test_install frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu elasticsearch_rebuildindex select_nginx_config
