@@ -102,3 +102,10 @@ Test that it is working correctly:
 ### Run API tests
 
     bin/py.test tests-api-services
+
+
+## Policy Compass is Free Software
+
+This project (i.e. all files in this repository if not declared otherwise) is
+licensed under the GNU Affero General Public License (AGPLv3), see
+LICENSE.txt.
