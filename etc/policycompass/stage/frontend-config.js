@@ -11,9 +11,11 @@
 var policyCompassConfig = {
     'URL': '/api/v1',
     'METRICS_MANAGER_URL': 'https://services-stage.policycompass.eu/api/v1/metricsmanager',
+    'DATASETS_MANAGER_URL': 'https://services-stage.policycompass.eu/api/v1/datasetmanager',
     'VISUALIZATIONS_MANAGER_URL': 'https://services-stage.policycompass.eu/api/v1/visualizationsmanager',
     'EVENTS_MANAGER_URL': 'https://services-stage.policycompass.eu/api/v1/eventsmanager',
     'REFERENCE_POOL_URL': 'https://services-stage.policycompass.eu/api/v1/references',
+    'INDICATOR_SERVICE_URL': 'https://services-stage.policycompass.eu/api/v1/indicatorservice',
     'FCM_URL': 'https://fcm-stage.policycompass.eu/api/v1/fcmmanager',
     'ELASTIC_URL' : 'https://search-stage.policycompass.eu/',
     'ELASTIC_INDEX_NAME' : 'policycompass_search',

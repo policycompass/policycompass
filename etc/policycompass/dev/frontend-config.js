@@ -15,10 +15,12 @@ var useRemoteServices = false;
 var policyCompassConfig = {
     'URL': '/api/v1',
     'METRICS_MANAGER_URL': 'http://localhost:8000/api/v1/metricsmanager',
+    'DATASETS_MANAGER_URL': 'http://localhost:8000/api/v1/datasetmanager',
     'VISUALIZATIONS_MANAGER_URL': 'http://localhost:8000/api/v1/visualizationsmanager',
     'EVENTS_MANAGER_URL': 'http://localhost:8000/api/v1/eventsmanager',
     'REFERENCE_POOL_URL': 'http://localhost:8000/api/v1/references',
-    'FCM_URL': 'http://localhost:10080/api/v1/fcmmanager',
+    'INDICATOR_SERVICE_URL': 'http://localhost:8000/api/v1/indicatorservice',
+    'FCM_URL': 'http://localhost:8080/api/v1/fcmmanager',
     'ELASTIC_URL' : 'http://localhost:9200/',
     'ELASTIC_INDEX_NAME' : 'policycompass_search',
     // FIXME: disabling adhocracy doesn't work due to use of
@@ -31,16 +33,18 @@ var policyCompassConfig = {
 // Configuration for remote services
 var remotePolicyCompassConfig = {
     'URL': '/api/v1',
-    'METRICS_MANAGER_URL': 'https://services-dev.policycompass.eu/api/v1/metricsmanager',
-    'VISUALIZATIONS_MANAGER_URL': 'https://services-dev.policycompass.eu/api/v1/visualizationsmanager',
-    'EVENTS_MANAGER_URL': 'https://services-dev.policycompass.eu/api/v1/eventsmanager',
-    'REFERENCE_POOL_URL': 'https://services-dev.policycompass.eu/api/v1/references',
-    'FCM_URL': 'https://alpha.policycompass.eu/api/v1/fcmmanager',
-    'ELASTIC_URL' : 'https://search-dev.policycompass.eu/',
+    'METRICS_MANAGER_URL': 'https://services-stage.policycompass.eu/api/v1/metricsmanager',
+    'DATASETS_MANAGER_URL': 'https://services-stage.policycompass.eu/api/v1/datasetmanager',
+    'VISUALIZATIONS_MANAGER_URL': 'https://services-stage.policycompass.eu/api/v1/visualizationsmanager',
+    'EVENTS_MANAGER_URL': 'https://services-stage.policycompass.eu/api/v1/eventsmanager',
+    'REFERENCE_POOL_URL': 'https://services-stage.policycompass.eu/api/v1/references',
+    'INDICATOR_SERVICE_URL': 'https://services-stage.policycompass.eu/api/v1/indicatorservice',
+    'FCM_URL': 'https://fcm-stage.policycompass.eu/api/v1/fcmmanager',
+    'ELASTIC_URL' : 'https://search-stage.policycompass.eu/',
     'ELASTIC_INDEX_NAME' : 'policycompass_search',
     'ENABLE_ADHOCRACY': true,
-    'ADHOCRACY_BACKEND_URL': 'https://adhocracy-backend-dev.policycompass.eu',
-    'ADHOCRACY_FRONTEND_URL': 'https://adhocracy-frontend-dev.policycompass.eu'
+    'ADHOCRACY_BACKEND_URL': 'https://adhocracy-backend-stage.policycompass.eu',
+    'ADHOCRACY_FRONTEND_URL': 'https://adhocracy-frontend-stage.policycompass.eu'
 };
 
 if(useRemoteServices == false) {
