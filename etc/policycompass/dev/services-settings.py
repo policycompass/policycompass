@@ -25,16 +25,22 @@ ELASTICSEARCH_URL = 'http://localhost:9200/policycompass_search/'
 
 PC_SERVICES = {
     'references': {
+        'frontend_base_url': 'http://localhost:9000',
+        'MEDIA_URL' : 'media/',
         'base_url': 'http://localhost:8000',
         'units': '/api/v1/references/units',
         'external_resources': '/api/v1/references/externalresources',
         'languages': '/api/v1/references/languages',
         'domains': '/api/v1/references/policydomains',
         'dateformats': '/api/v1/references/dateformats',
-        'eventsInVisualizations': '/api/v1/visualizationsmanager/eventsInVisualizations',   
-        'metricsInvisualizations': '/api/v1/visualizationsmanager/metricsInVisualizations',
+        'eventsInVisualizations': '/api/v1/visualizationsmanager/eventsInVisualizations',
+        'datasetsInvisualizations': '/api/v1/visualizationsmanager/datasetsInVisualizations',
         'updateindexitem' : '/api/v1/searchmanager/updateindexitem',
         'deleteindexitem' : '/api/v1/searchmanager/deleteindexitem',
-        'fcm_base_url': 'http://localhost:10080'
+        'fcm_base_url': 'http://localhost:8080'
+    },
+    'external_resources': {
+        'physical_path_phantomCapture': '/home/policycompass/policycompass/policycompass-services/apps/visualizationsmanager/phantomCapture/main.js',
     }
 }
+
