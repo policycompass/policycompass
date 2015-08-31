@@ -76,7 +76,7 @@ test_install: cache/wheels bin/wheel bin/python3.4
 frontend_install:
 	cd policycompass-frontend && npm install --python=$(GYPPYTHON_EXECUTABLE)
 	cd policycompass-frontend && yes n | node_modules/.bin/bower install
-	ln -sfT etc/policycompass/$(CONFIG_TYPE)/frontend-config.js policycompass-frontend/app/config.js
+	ln -sfT ../../etc/policycompass/$(CONFIG_TYPE)/frontend-config.js policycompass-frontend/app/config.js
 	echo '{"PC_SERVICES_URL": "http://localhost:8000", "FCM_SERVICES_URL": "http://localhost:10080", "ELASTIC_SEARCH_URL": "http://localhost:9200"}' > policycompass-frontend/development.json
 
 policycompass-services/bin/python3.4:
@@ -87,7 +87,7 @@ services_install: policycompass-services/bin/python3.4
 	ln -sfT $(ELASTICSEARCH_INCLUDES) bin/elasticsearch.in.sh
 	policycompass-services/bin/pip3.4 install --upgrade wheel
 	policycompass-services/bin/pip3.4 install --download-cache cache/downloads -r policycompass-services/requirements.txt
-	ln -sfT etc/policycompass/$(CONFIG_TYPE)/services-settings.py policycompass-services/config/settings.py
+	ln -sfT ../../etc/policycompass/$(CONFIG_TYPE)/services-settings.py policycompass-services/config/settings.py
 	cd policycompass-services && bin/python3.4 manage.py migrate
 	cd policycompass-services && bin/python3.4 manage.py loaddata metrics events common references visualizations
 
@@ -110,8 +110,8 @@ adhocracy3/bin/buildout: adhocracy3 adhocracy3/bin/python3.4 adhocracy3_git
 adhocracy3_install: adhocracy3/bin/buildout
 	cd adhocracy3 && bin/buildout
 ifneq ($(CONFIG_TYPE), dev)
-	ln -sfT etc/adhocracy/$(CONFIG_TYPE)/development.ini adhocracy3/etc/development.ini
-	ln -sfT etc/adhocracy/$(CONFIG_TYPE)/frontend_development.ini adhocracy3/etc/frontend_development.ini
+	ln -sfT ../../etc/adhocracy/$(CONFIG_TYPE)/development.ini adhocracy3/etc/development.ini
+	ln -sfT ../../etc/adhocracy/$(CONFIG_TYPE)/frontend_development.ini adhocracy3/etc/frontend_development.ini
 else
 	cd adhocracy3 && git checkout etc/development.ini
 	cd adhocracy3 && git checkout etc/frontend_development.ini
