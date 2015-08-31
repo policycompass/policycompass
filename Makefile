@@ -108,7 +108,7 @@ adhocracy3/bin/buildout: adhocracy3 adhocracy3/bin/python3.4 adhocracy3_git
 	cd adhocracy3 && bin/python3.4 ./bootstrap.py -v 2.3.1 --setuptools-version=12.1
 
 adhocracy3_install: adhocracy3/bin/buildout
-	cd adhocracy3 && bin/buildout
+	cd adhocracy3 && bin/buildout -c buildout-pcompass.cfg
 ifneq ($(CONFIG_TYPE), dev)
 	ln -sfrT etc/adhocracy/$(CONFIG_TYPE)/development.ini adhocracy3/etc/development.ini
 	ln -sfrT etc/adhocracy/$(CONFIG_TYPE)/frontend_development.ini adhocracy3/etc/frontend_development.ini
