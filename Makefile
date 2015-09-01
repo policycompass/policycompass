@@ -109,13 +109,8 @@ adhocracy3/bin/buildout: adhocracy3 adhocracy3/bin/python3.4 adhocracy3_git
 
 adhocracy3_install: adhocracy3/bin/buildout
 	cd adhocracy3 && bin/buildout -c buildout-pcompass.cfg
-ifneq ($(CONFIG_TYPE), dev)
 	ln -sfT ../../etc/adhocracy/$(CONFIG_TYPE)/development.ini adhocracy3/etc/development.ini
 	ln -sfT ../../etc/adhocracy/$(CONFIG_TYPE)/frontend_development.ini adhocracy3/etc/frontend_development.ini
-else
-	cd adhocracy3 && git checkout etc/development.ini
-	cd adhocracy3 && git checkout etc/frontend_development.ini
-endif
 
 
 bin/lein:
