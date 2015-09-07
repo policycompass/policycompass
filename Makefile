@@ -6,7 +6,11 @@ ELASTICSEARCH_EXECUTABLE=/usr/share/elasticsearch/bin/elasticsearch
 ELASTICSEARCH_INCLUDES=/usr/share/elasticsearch/bin/elasticsearch.in.sh
 # should a postgres be started and where is the postgres executable
 POSTGRES_DEDICATED=true
-POSTGRES_BIN_PATH=/usr/lib/postgresql/9.3/bin
+ifeq ($(wildcard /usr/lib/postgresql/9.4),)
+	POSTGRES_BIN_PATH=/usr/lib/postgresql/9.3/bin
+else
+	POSTGRES_BIN_PATH=/usr/lib/postgresql/9.4/bin
+endif
 POSTGRES_EXECUTABLE=$(POSTGRES_BIN_PATH)/postgres
 # python executable used by node-gyp
 GYPPYTHON_EXECUTABLE=$(shell which python2)
