@@ -167,6 +167,6 @@ elasticsearch_rebuildindex:
 	curl -XPOST 'http://localhost:8000/api/v1/searchmanager/rebuildindex'
 
 select_nginx_config:
-	ln -sfT etc/nginx/$(CONFIG_TYPE)/nginx.conf etc/nginx.conf
+	ln -sfT ./nginx/$(CONFIG_TYPE)/nginx.conf etc/nginx.conf
 
 .PHONY: test_install frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu elasticsearch_rebuildindex select_nginx_config
