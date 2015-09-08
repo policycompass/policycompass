@@ -2,6 +2,7 @@
 
 Install the policy compass web application and all dependent services for development.
 
+
 ## Installation
 
 Requirements:
@@ -11,7 +12,7 @@ Requirements:
 * make
 * bash
 * python3.4 (optional for automatic installation)
-* postgres, elastisearch, and tons of other dependencies (see Makefile for reference)
+* postgres, elasticsearch, and tons of other dependencies (see Makefile for reference)
 
 ### Checkout main repository
 
@@ -20,7 +21,7 @@ This requires an github.com account with [ssh keys](https://help.github.com/arti
     git clone git@github.com:policycompass/policycompass.git
     cd policycompass
 
-### Automatic installation on ubuntu system:
+### Automatic installation on ubuntu systems
 
 Install dependencies:
 
@@ -34,7 +35,7 @@ Start all installed services and the frontend using supervisord:
 
     supervisord -c etc/supervisord.conf
 
-### Manual installation:
+### Manual installation
 
 Install basic requirements:
 
@@ -62,9 +63,12 @@ Install dependency services:
 
     Read the README files in the subproject directories (./policycompass-*).
 
-## API Documentation 
+
+## API Documentation
 
 The API documentation for all the Policy Compass services can be found [here](https://github.com/policycompass/policycompass/wiki/Policy-Compass-REST-API-Documentation).
+
+
 ## Testing
 
 Acceptance tests for the frontend webapplication and
