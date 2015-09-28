@@ -389,3 +389,7 @@ node.name: "policycompass-es-node1"
 http.cors.enabled: true
 http.cors.allow-headers: X-Requested-With, Content-Type, Content-Length, Authorization, X-User-Path, X-User-Token
 http.cors.allow-origin: "*"
+
+# Disable cluster
+
+node.local: true
