@@ -79,6 +79,7 @@ test_install: cache/wheels bin/wheel bin/python3.4
 
 frontend_install:
 	cd policycompass-frontend && npm install --python=$(PYTHON_EXECUTABLE)
+	cd policycompass-frontend && node_modules/.bin/bower --config.interactive=false prune
 	cd policycompass-frontend && node_modules/.bin/bower --config.interactive=false install
 	cd policycompass-frontend && compass compile
 	ln -sfT ../../etc/policycompass/$(CONFIG_TYPE)/frontend-config.js policycompass-frontend/app/config.js
