@@ -15,6 +15,8 @@ var useRemoteServices = false;
 var policyCompassConfig = {
     'URL': '/api/v1',
     'METRICS_MANAGER_URL': 'http://localhost:8000/api/v1/metricsmanager',
+    'FORMULA_VALIDATION_URL' : 'http://localhost:8000/api/v1/metricsmanager/formulas/validate',
+    'NORMALIZERS_URL': 'http://localhost:8000/api/v1/metricsmanager/normalizers',
     'DATASETS_MANAGER_URL': 'http://localhost:8000/api/v1/datasetmanager',
     'VISUALIZATIONS_MANAGER_URL': 'http://localhost:8000/api/v1/visualizationsmanager',
     'EVENTS_MANAGER_URL': 'http://localhost:8000/api/v1/eventsmanager',
@@ -34,6 +36,8 @@ var policyCompassConfig = {
 var remotePolicyCompassConfig = {
     'URL': '/api/v1',
     'METRICS_MANAGER_URL': 'https://services-stage.policycompass.eu/api/v1/metricsmanager',
+    'FORMULA_VALIDATION_URL' : 'https://services-stage.policycompass.eu/api/v1/metricsmanager/formulas/validate',
+    'NORMALIZERS_URL': 'https://services-stage.policycompass.eu/api/v1/metricsmanager/normalizers',
     'DATASETS_MANAGER_URL': 'https://services-stage.policycompass.eu/api/v1/datasetmanager',
     'VISUALIZATIONS_MANAGER_URL': 'https://services-stage.policycompass.eu/api/v1/visualizationsmanager',
     'EVENTS_MANAGER_URL': 'https://services-stage.policycompass.eu/api/v1/eventsmanager',
@@ -52,4 +56,3 @@ if(useRemoteServices == false) {
 } else {
     angular.module('pcApp.config', []).constant('API_CONF', remotePolicyCompassConfig);
 }
-

@@ -11,6 +11,8 @@
 var policyCompassConfig = {
     'URL': '/api/v1',
     'METRICS_MANAGER_URL': 'https://services-stage.policycompass.eu/api/v1/metricsmanager',
+    'FORMULA_VALIDATION_URL' : 'https://services-stage.policycompass.eu/api/v1/metricsmanager/formulas/validate',
+    'NORMALIZERS_URL': 'https://services-stage.policycompass.eu/api/v1/metricsmanager/normalizers',
     'DATASETS_MANAGER_URL': 'https://services-stage.policycompass.eu/api/v1/datasetmanager',
     'VISUALIZATIONS_MANAGER_URL': 'https://services-stage.policycompass.eu/api/v1/visualizationsmanager',
     'EVENTS_MANAGER_URL': 'https://services-stage.policycompass.eu/api/v1/eventsmanager',
