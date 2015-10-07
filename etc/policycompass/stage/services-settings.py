@@ -37,14 +37,10 @@ PC_SERVICES = {
         'datasetsInvisualizations': '/api/v1/visualizationsmanager/datasetsInVisualizations',
         'updateindexitem' : '/api/v1/searchmanager/updateindexitem',
         'deleteindexitem' : '/api/v1/searchmanager/deleteindexitem',
-        'fcm_base_url': 'http://localhost:10080'
+        'fcm_base_url': 'http://localhost:10080',
+        'adhocracy_api_base_url': 'http://localhost:6541'
     },
     'external_resources': {
         'physical_path_phantomCapture': '/home/policycompass/policycompass/policycompass-services/apps/visualizationsmanager/phantomCapture/main.js',
     }
 }
-
-
-
-
-
