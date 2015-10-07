@@ -33,10 +33,10 @@ CONFIG_TYPE ?= dev
 install_deps: install_deps_ubuntu install_elasticsearch_ubuntu /usr/bin/node
 
 # list of packages for ubuntu 14.04 lts
-UBUNTU_PACKAGES= maven tomcat7 libxml2 libxslt1.1 libzip2 python3 python3-pil python3-pip		\
-	         python-virtualenv python3-ipdb python3-pep8 pyflakes sqlite build-essential zlibc	\
-	         curl file git ruby ruby-dev nodejs npm openjdk-7-jdk phantomjs supervisor nginx    \
-			 postgresql
+UBUNTU_PACKAGES= maven tomcat7 libxml2 libxslt1.1 libzip2 python3 python3-pil python3-pip          \
+                 python-virtualenv python3-ipdb python3-pep8 pyflakes sqlite build-essential zlibc \
+                 curl file git ruby ruby-dev nodejs npm openjdk-7-jdk phantomjs supervisor nginx   \
+                 postgresql ruby-compass
 
 /usr/bin/node:
 	ln -sfT /usr/bin/nodejs /usr/bin/node
@@ -78,8 +78,9 @@ test_install: cache/wheels bin/wheel bin/python3.4
 	./bin/pip3.4 install --no-index --find-links=./cache/wheels -r requirements.txt
 
 frontend_install:
-	cd policycompass-frontend && npm install --python=$(GYPPYTHON_EXECUTABLE)
+	cd policycompass-frontend && npm install --python=$(PYTHON_EXECUTABLE)
 	cd policycompass-frontend && node_modules/.bin/bower --config.interactive=false install
+	cd policycompass-frontend && compass compile
 	ln -sfT ../../etc/policycompass/$(CONFIG_TYPE)/frontend-config.js policycompass-frontend/app/config.js
 	echo '{"PC_SERVICES_URL": "http://localhost:8000", "FCM_SERVICES_URL": "http://localhost:10080", "ELASTIC_SEARCH_URL": "http://localhost:9200"}' > policycompass-frontend/development.json
 
