@@ -78,7 +78,7 @@ test_install: cache/wheels bin/wheel bin/python3.4
 	./bin/pip3.4 install --no-index --find-links=./cache/wheels -r requirements.txt
 
 frontend_install:
-	cd policycompass-frontend && npm install --python=$(PYTHON_EXECUTABLE)
+	cd policycompass-frontend && npm install --python=$(GYPPYTHON_EXECUTABLE)
 	cd policycompass-frontend && node_modules/.bin/bower --config.interactive=false prune
 	cd policycompass-frontend && node_modules/.bin/bower --config.interactive=false install
 	cd policycompass-frontend && compass compile
