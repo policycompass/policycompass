@@ -15,7 +15,7 @@ POSTGRES_EXECUTABLE=$(POSTGRES_BIN_PATH)/postgres
 # python executable used by node-gyp
 GYPPYTHON_EXECUTABLE=$(shell which python2)
 
-ADHOCRACY3_COMMIT="97e7372c10d9d65bec7e2391a4b8f3f0ff436331"
+ADHOCRACY3_COMMIT="33a873cfc47616bf6e89c1dff36ebc677ecc7fbf"
 
 # support different config files for different environments
 ifeq ($(shell hostname),poco-test)
