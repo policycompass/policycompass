@@ -117,7 +117,7 @@ adhocracy3_install: adhocracy3/bin/buildout
 	cd adhocracy3 && bin/buildout -c buildout-pcompass.cfg
 	ln -sfT ../../etc/adhocracy/$(CONFIG_TYPE)/development.ini adhocracy3/etc/development.ini
 	ln -sfT ../../etc/adhocracy/$(CONFIG_TYPE)/frontend_development.ini adhocracy3/etc/frontend_development.ini
-
+	cd adhocracy3 && bin/import_resources etc/development.ini ../etc/adhocracy/resources.json
 
 bin/lein:
 	mkdir -p bin

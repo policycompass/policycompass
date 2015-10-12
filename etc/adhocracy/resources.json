@@ -1,0 +1,38 @@
+[
+    {"path": "/",
+     "creator": "god",
+     "content_type": "adhocracy_core.resources.organisation.IOrganisation",
+     "data": {"adhocracy_core.sheets.name.IName":
+              {"name": "organisation"}
+             }
+    },
+    {"path": "/organisation",
+     "creator": "god",
+     "content_type": "adhocracy_pcompass.resources.request.IProcess",
+     "data": {"adhocracy_core.sheets.name.IName":
+              {"name": "pcompass"}
+             }
+    },
+    {"path": "/organisation/pcompass/badges/",
+     "creator": "/principals/users/0000000",
+     "content_type": "adhocracy_core.resources.badge.IBadge",
+     "data": {"adhocracy_core.sheets.name.IName":
+                {"name": "metric_request"},
+                "adhocracy_core.sheets.title.ITitle":
+                {"title" : "metric"},
+                "adhocracy_core.sheets.description.IDescription" :
+                {"description" : "This is a request for a metric."}
+             }
+    },
+    {"path": "/organisation/pcompass/badges/",
+     "creator": "/principals/users/0000000",
+     "content_type": "adhocracy_core.resources.badge.IBadge",
+     "data": {"adhocracy_core.sheets.name.IName":
+                {"name": "dataset_request"},
+                "adhocracy_core.sheets.title.ITitle":
+                {"title" : "dataset"},
+                "adhocracy_core.sheets.description.IDescription" :
+                {"description" : "This is a request for a dataset."}
+             }
+    }
+]
