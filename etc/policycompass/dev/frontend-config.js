@@ -23,7 +23,7 @@ var policyCompassConfig = {
     'EVENTS_MANAGER_URL': 'http://localhost:8000/api/v1/eventsmanager',
     'REFERENCE_POOL_URL': 'http://localhost:8000/api/v1/references',
     'INDICATOR_SERVICE_URL': 'http://localhost:8000/api/v1/indicatorservice',
-    'FCM_URL': 'http://localhost:8080/api/v1/fcmmanager',
+    'FCM_URL': 'http://localhost:10080/api/v1/fcmmanager',
     'ELASTIC_URL' : 'http://localhost:9200/',
     'ELASTIC_INDEX_NAME' : 'policycompass_search',
     // FIXME: disabling adhocracy doesn't work due to use of
