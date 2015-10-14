@@ -81,7 +81,7 @@ frontend_install:
 	cd policycompass-frontend && npm install --python=$(GYPPYTHON_EXECUTABLE)
 	cd policycompass-frontend && node_modules/.bin/bower --config.interactive=false prune
 	cd policycompass-frontend && node_modules/.bin/bower --config.interactive=false install
-	cd policycompass-frontend && compass compile
+	cd policycompass-frontend && compass compile -e production
 	ln -sfT ../../etc/policycompass/$(CONFIG_TYPE)/frontend-config.js policycompass-frontend/app/config.js
 	echo '{"PC_SERVICES_URL": "http://localhost:8000", "FCM_SERVICES_URL": "http://localhost:10080", "ELASTIC_SEARCH_URL": "http://localhost:9200"}' > policycompass-frontend/development.json
 
