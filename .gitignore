@@ -14,4 +14,6 @@ selenium/
 carneades.log
 pip-selfcheck.json
 etc/mysupervisord.conf
-.idea
+idea
+etc/nginx.conf
+etc/policycompass/secret

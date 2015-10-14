@@ -88,10 +88,13 @@ frontend_install:
 policycompass-services/bin/python3.4:
 	virtualenv --python=$(PYTHON_EXECUTABLE) policycompass-services
 
-services_install: policycompass-services/bin/python3.4
+etc/policycompass/secret:
+	cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w $${1:-32} | head -n 1 > $@
+
+services_install: policycompass-services/bin/python3.4 etc/policycompass/secret
 	ln -sfT $(ELASTICSEARCH_EXECUTABLE) bin/elasticsearch
 	ln -sfT $(ELASTICSEARCH_INCLUDES) bin/elasticsearch.in.sh
-	policycompass-services/bin/pip3.4 install --upgrade wheel
+	policycompass-services/bin/pip3.4 install --upgrade wheel gunicorn
 	policycompass-services/bin/pip3.4 install --download-cache cache/downloads -r policycompass-services/requirements.txt
 	ln -sfT ../../etc/policycompass/$(CONFIG_TYPE)/services-settings.py policycompass-services/config/settings.py
 	cd policycompass-services && bin/python3.4 manage.py migrate
