@@ -10,6 +10,7 @@
 // Configuration for remote services
 var policyCompassConfig = {
     'URL': '/api/v1',
+    'SEARCH_MANAGER_URL': 'https://services-stage.policycompass.eu/api/v1/searchmanager',
     'METRICS_MANAGER_URL': 'https://services-stage.policycompass.eu/api/v1/metricsmanager',
     'FORMULA_VALIDATION_URL' : 'https://services-stage.policycompass.eu/api/v1/metricsmanager/formulas/validate',
     'NORMALIZERS_URL': 'https://services-stage.policycompass.eu/api/v1/metricsmanager/normalizers',
