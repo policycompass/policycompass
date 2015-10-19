@@ -34,5 +34,39 @@
                 "adhocracy_core.sheets.description.IDescription" :
                 {"description" : "This is a request for a dataset."}
              }
+    },
+    {"path": "/organisation/pcompass/badges/",
+     "creator": "/principals/users/0000000",
+     "content_type": "adhocracy_core.resources.badge.IBadge",
+     "data": {"adhocracy_core.sheets.name.IName":
+                {"name": "indicator_request"},
+                "adhocracy_core.sheets.title.ITitle":
+                {"title" : "indicator"},
+                "adhocracy_core.sheets.description.IDescription" :
+                {"description" : "This is a request for a indicator."}
+             }
+    },
+    {"path": "/organisation/pcompass/badges/",
+     "creator": "/principals/users/0000000",
+     "content_type": "adhocracy_core.resources.badge.IBadge",
+     "data": {"adhocracy_core.sheets.name.IName":
+                {"name": "visualization_request"},
+                "adhocracy_core.sheets.title.ITitle":
+                {"title" : "visualization"},
+                "adhocracy_core.sheets.description.IDescription" :
+                {"description" : "This is a request for a visualization."}
+             }
+    },
+    {"path": "/organisation/pcompass/badges/",
+     "creator": "/principals/users/0000000",
+     "content_type": "adhocracy_core.resources.badge.IBadge",
+     "data": {"adhocracy_core.sheets.name.IName":
+                {"name": "policy_model_request"},
+                "adhocracy_core.sheets.title.ITitle":
+                {"title" : "policy model"},
+                "adhocracy_core.sheets.description.IDescription" :
+                {"description" : "This is a request for a policy model."}
+             }
     }
+
 ]
