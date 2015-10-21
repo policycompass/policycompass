@@ -35,6 +35,19 @@ Start all installed services and the frontend using supervisord:
 
     supervisord -c etc/supervisord.conf
 
+Install Adhocracy:
+
+    make adhocracy3_install
+
+Run Adhocracy:
+
+    supervisorctl start adhocracy:
+
+Setup resources:
+
+    make adhocracy3_setup_resources
+
+
 ### Manual installation
 
 Install basic requirements:
