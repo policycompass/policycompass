@@ -15,7 +15,7 @@ POSTGRES_EXECUTABLE=$(POSTGRES_BIN_PATH)/postgres
 # python executable used by node-gyp
 GYPPYTHON_EXECUTABLE=$(shell which python2)
 
-ADHOCRACY3_COMMIT="a1575af70b1f804d93d1659d5e8febea2c570889"
+ADHOCRACY3_COMMIT="f921e87758dbf55757f3c29cd474e2e0d0f4bcd5"
 
 # support different config files for different environments
 ifeq ($(shell hostname),poco-test)
@@ -111,7 +111,7 @@ adhocracy3/bin/python3.4: adhocracy3
 
 adhocracy3/bin/buildout: adhocracy3 adhocracy3/bin/python3.4 adhocracy3_git
 	mkdir -p adhocracy3/eggs # needed since buildout sometimes fails to create egg
-	cd adhocracy3 && bin/python3.4 ./bootstrap.py -v 2.3.1 --setuptools-version=12.1
+	cd adhocracy3 && ./bin/python3.4 ./bootstrap.py --buildout-version 2.4.4 --setuptools-version=18.3.2
 
 adhocracy3_install: adhocracy3/bin/buildout
 	cd adhocracy3 && bin/buildout -c buildout-pcompass.cfg
