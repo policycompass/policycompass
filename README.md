@@ -43,6 +43,11 @@ Run Adhocracy:
 
     supervisorctl start adhocracy:
 
+Setup resources:
+
+    make adhocracy3_setup_resources
+
+
 ### Manual installation
 
 Install basic requirements:
