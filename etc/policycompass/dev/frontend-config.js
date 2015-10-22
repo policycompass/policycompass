@@ -49,7 +49,7 @@ var remotePolicyCompassConfig = {
     'ELASTIC_URL' : 'https://search-stage.policycompass.eu/',
     'ELASTIC_INDEX_NAME' : 'policycompass_search',
     'ENABLE_ADHOCRACY': true,
-    'ADHOCRACY_BACKEND_URL': 'https://adhocracy-backend-stage.policycompass.eu',
+    'ADHOCRACY_BACKEND_URL': 'https://adhocracy-frontend-stage.policycompass.eu/api',
     'ADHOCRACY_FRONTEND_URL': 'https://adhocracy-frontend-stage.policycompass.eu'
 };
 
