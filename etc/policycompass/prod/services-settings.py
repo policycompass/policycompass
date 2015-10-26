@@ -2,12 +2,17 @@ __author__ = 'fki'
 
 from .settings_basic import *
 
+DEBUG = False
+TEMPLATE_DEBUG = False
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'pcompass.db',
     }
 }
+
+# FIXME: maybe setup other production settings (ALLOWED_HOSTS, SECRET_KEY)
 
 # Database config example for PostgreSQL
 
