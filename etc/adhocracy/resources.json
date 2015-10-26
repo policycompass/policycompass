@@ -34,5 +34,27 @@
                 "adhocracy_core.sheets.description.IDescription" :
                 {"description" : "This is a request for a dataset."}
              }
+    },
+    {"path": "/organisation/pcompass/badges/",
+     "creator": "/principals/users/0000000",
+     "content_type": "adhocracy_core.resources.badge.IBadge",
+     "data": {"adhocracy_core.sheets.name.IName":
+                {"name": "event_request"},
+                "adhocracy_core.sheets.title.ITitle":
+                {"title" : "event"},
+                "adhocracy_core.sheets.description.IDescription" :
+                {"description" : "This is a request for an event."}
+             }
+    },
+    {"path": "/organisation/pcompass/badges/",
+     "creator": "/principals/users/0000000",
+     "content_type": "adhocracy_core.resources.badge.IBadge",
+     "data": {"adhocracy_core.sheets.name.IName":
+                {"name": "causal_model_request"},
+                "adhocracy_core.sheets.title.ITitle":
+                {"title" : "Causal Model"},
+                "adhocracy_core.sheets.description.IDescription" :
+                {"description" : "This is a request for a dataset."}
+             }
     }
 ]
