@@ -126,16 +126,6 @@ bin/lein:
 	wget https://raw.githubusercontent.com/technomancy/leiningen/2.5.1/bin/lein -O bin/lein
 	chmod +x bin/lein
 
-carneades_install: bin/lein
-	ln -sfT $(CATALINA_EXECUTABLE) ./bin/catalina.sh
-	export PATH=$(PATH):`(gem env gempath | cut -d ':' -f 2 )`/bin &&\
-	mkdir -p var/lib/tomcat/webapps &&\
-	gem install --user-install compass &&\
-	PATH=$(PWD)/bin:$(PATH) ./carneades/src/CarneadesWeb/scripts/build_war.sh --deploy $(CURDIR)/var/lib/tomcat/webapps/carneades.war
-
-carneades_config:
-	@echo "{:projects-directory \""$(CURDIR)"/carneades/projects\"}" > .carneades.clj
-
 postgres_init:
 	ln -sfT $(POSTGRES_EXECUTABLE) bin/postgres
 ifeq ($(POSTGRES_DEDICATED), true)
