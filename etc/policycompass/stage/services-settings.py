@@ -49,3 +49,11 @@ PC_SERVICES = {
         'physical_path_phantomCapture': '/home/policycompass/policycompass/policycompass-services/apps/visualizationsmanager/phantomCapture/main.js',
     }
 }
+
+ALLOWED_HOSTS = ['localhost', '.policycompass.eu']
+
+with open('/home/policycompass/policycompass/secret_key') as f:
+    SECRET_KEY = f.read().strip()
+
+
+STATIC_ROOT = "/home/policycompass/policycompass/policycompass-services/static"
