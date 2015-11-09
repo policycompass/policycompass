@@ -96,7 +96,7 @@ services_install: policycompass-services/bin/python3.4
 	ln -sfT ../../etc/policycompass/$(CONFIG_TYPE)/services-settings.py policycompass-services/config/settings.py
 	cd policycompass-services && bin/python3.4 manage.py migrate
 	cd policycompass-services && bin/python3.4 manage.py loaddata datasets metrics indicators events common references visualizations
-	cd policycompass-services && bin/python3.4 manage.py collectstatic
+	cd policycompass-services && bin/python3.4 manage.py collectstatic --noinput
 
 adhocracy3:
 	git clone https://github.com/liqd/adhocracy3.git
