@@ -1,4 +1,4 @@
-all: update_repros test_install frontend_install postgres_init services_install fcmmanager_install select_nginx_config
+all: update_repros test_install frontend_install postgres_init services_install services_pre_commit_hook fcmmanager_install select_nginx_config
 
 PYTHON_EXECUTABLE=$(shell which python3.4)
 CATALINA_EXECUTABLE=/usr/share/tomcat7/bin/catalina.sh
@@ -97,6 +97,9 @@ services_install: policycompass-services/bin/python3.4
 	cd policycompass-services && bin/python3.4 manage.py migrate
 	cd policycompass-services && bin/python3.4 manage.py loaddata datasets metrics indicators events common references visualizations
 	cd policycompass-services && bin/python3.4 manage.py collectstatic --noinput
+
+services_pre_commit_hook: etc/hooks/services_pre-commit
+	cp etc/hooks/services_pre-commit .git/modules/policycompass-services/hooks/pre-commit
 
 adhocracy3:
 	git clone https://github.com/liqd/adhocracy3.git

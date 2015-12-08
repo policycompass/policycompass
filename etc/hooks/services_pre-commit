@@ -1,0 +1,2 @@
+#!/bin/sh
+bin/flake8 apps policycompass_services --ignore E501,F403 --exclude migrations
