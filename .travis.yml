@@ -19,3 +19,4 @@ script:
   - bin/python tests-mock-services/example-service.py &
   - bin/py.test tests-acceptance-frontend
   - bin/py.test tests-api-services
+  - cd policycompass_services && sh ../.git/modules/policycompass-services/hooks/pre-commit
