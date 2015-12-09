@@ -44,3 +44,5 @@ PC_SERVICES = {
         'physical_path_phantomCapture': '/home/policycompass/policycompass/policycompass-services/apps/visualizationsmanager/phantomCapture/main.js',
     }
 }
+
+STATIC_ROOT = "/"
