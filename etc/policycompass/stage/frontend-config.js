@@ -20,6 +20,7 @@ var policyCompassConfig = {
     'EVENTS_MANAGER_URL': 'https://services-stage.policycompass.eu/api/v1/eventsmanager',
     'REFERENCE_POOL_URL': 'https://services-stage.policycompass.eu/api/v1/references',
     'INDICATOR_SERVICE_URL': 'https://services-stage.policycompass.eu/api/v1/indicatorservice',
+    'FEEDBACK_MANAGER_URL' : 'https://services-stage.policycompass.eu/api/v1/feedbackmanager',
     'FCM_URL': 'https://fcm-stage.policycompass.eu/api/v1/fcmmanager',
     'ELASTIC_URL' : 'https://search-stage.policycompass.eu/',
     'ELASTIC_INDEX_NAME' : 'policycompass_search',
