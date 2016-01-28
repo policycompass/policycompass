@@ -95,7 +95,7 @@ services_install: policycompass-services/bin/python3.4
 	policycompass-services/bin/pip3.4 install --download-cache cache/downloads -r policycompass-services/requirements.txt
 	ln -sfT ../../etc/policycompass/$(CONFIG_TYPE)/services-settings.py policycompass-services/config/settings.py
 	cd policycompass-services && bin/python3.4 manage.py migrate
-	cd policycompass-services && bin/python3.4 manage.py loaddata datasets metrics indicators events references visualizations
+	cd policycompass-services && bin/python3.4 manage.py loaddata datasets metrics indicators events references visualizations ags
 	if [ ! $(CONFIG_TYPE) = dev ]; then cd policycompass-services && bin/python3.4 manage.py collectstatic --noinput; fi
 
 services_pre_commit_hook: etc/hooks/services_pre-commit
