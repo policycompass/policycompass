@@ -33,7 +33,7 @@ CONFIG_TYPE ?= dev
 install_deps: install_deps_ubuntu install_elasticsearch_ubuntu /usr/bin/node
 
 # list of packages for ubuntu 14.04 lts
-UBUNTU_PACKAGES= maven tomcat7 libxml2 libxslt1.1 libzip2 python3 python3-pil python3-pip          \
+UBUNTU_PACKAGES= maven tomcat7 libxml2 libxml2-dev libxslt1.1 libzip2 python3 python3-pil python3-pip          \
                  python-virtualenv python3-ipdb python3-pep8 pyflakes sqlite build-essential zlibc \
                  curl file git ruby ruby-dev nodejs npm openjdk-7-jdk phantomjs supervisor nginx   \
                  postgresql ruby-compass
