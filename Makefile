@@ -1,4 +1,3 @@
-all: update_repros test_install frontend_install postgres_init services_install services_pre_commit_hook fcmmanager_install select_nginx_config
 
 PYTHON_EXECUTABLE=$(shell which python3.4)
 CATALINA_EXECUTABLE=/usr/share/tomcat7/bin/catalina.sh
@@ -25,6 +24,12 @@ ifeq ($(shell hostname),poco-live)
 CONFIG_TYPE ?= prod
 endif
 CONFIG_TYPE ?= dev
+
+# those files are rendered from mustache templates
+MAKO_TEMPLATES= etc/supervisord.conf
+
+all: $(MAKO_TEMPLATES) update_repros frontend_install postgres_init services_install services_pre_commit_hook fcmmanager_install select_nginx_config
+
 
 #
 # Install dependencies from ubtunut sources (needs to be run with root)
@@ -67,15 +72,8 @@ update_repros:
 bin/python3.4:
 	virtualenv --python=$(PYTHON_EXECUTABLE) .
 
-bin/wheel: bin/python3.4
-	./bin/pip3.4 install -I wheel
-
-cache/wheels: bin/wheel
-	./bin/pip3.4 wheel --wheel-dir=./cache/wheels -r requirements.txt
-
-test_install: cache/wheels bin/wheel bin/python3.4
-	./bin/pip3.4 install --upgrade wheel
-	./bin/pip3.4 install --no-index --find-links=./cache/wheels -r requirements.txt
+bin/mako-render: bin/python3.4
+	./bin/pip3 install -I mako==1.0.4
 
 frontend_install:
 	cd policycompass-frontend && npm install --python=$(GYPPYTHON_EXECUTABLE)
@@ -167,4 +165,7 @@ elasticsearch_rebuildindex:
 select_nginx_config:
 	ln -sfT ./nginx/$(CONFIG_TYPE)/nginx.conf etc/nginx.conf
 
-.PHONY: test_install frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu elasticsearch_rebuildindex select_nginx_config
+%: %.mako bin/mako-render
+	./bin/mako-render $< --var config_type=$(CONFIG_TYPE) > $@
+
+.PHONY: frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu elasticsearch_rebuildindex select_nginx_config

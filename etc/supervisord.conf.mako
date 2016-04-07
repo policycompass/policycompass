@@ -33,7 +33,11 @@ stdout_logfile = %(here)s/../var/log/nginx.log
 stderr_logfile = NONE
 
 [program:policycompass-services]
+% if config_type=="dev":
 command = ./bin/python manage.py runserver --noreload
+% else:
+command = ./bin/gunicorn -n policycompass-services policycompass_services.wsgi
+% endif
 directory = %(here)s/../policycompass-services
 priority = 10
 redirect_stderr = true

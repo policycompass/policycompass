@@ -13,5 +13,6 @@ bin/
 selenium/
 carneades.log
 pip-selfcheck.json
+etc/supervisor.conf
 etc/mysupervisord.conf
 .idea
