@@ -123,11 +123,6 @@ adhocracy3_install: adhocracy3/bin/buildout
 adhocracy3_setup_resources:
 	cd adhocracy3 && bin/import_resources etc/development.ini ../etc/adhocracy/resources.json
 
-bin/lein:
-	mkdir -p bin
-	wget https://raw.githubusercontent.com/technomancy/leiningen/2.5.1/bin/lein -O bin/lein
-	chmod +x bin/lein
-
 postgres_init:
 	ln -sfT $(POSTGRES_EXECUTABLE) bin/postgres
 ifeq ($(POSTGRES_DEDICATED), true)
