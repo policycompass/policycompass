@@ -28,7 +28,7 @@ CONFIG_TYPE ?= dev
 # those files are rendered from mustache templates
 MAKO_TEMPLATES= etc/supervisord.conf
 
-all: $(MAKO_TEMPLATES) update_repros frontend_install postgres_init services_install services_pre_commit_hook fcmmanager_install select_nginx_config
+all: $(MAKO_TEMPLATES) test_utilities update_repros frontend_install postgres_init services_install services_pre_commit_hook fcmmanager_install select_nginx_config
 
 
 #
@@ -74,6 +74,9 @@ bin/python3.4:
 
 bin/mako-render: bin/python3.4
 	./bin/pip3 install -I mako==1.0.4
+
+test_utilities:
+	./bin/pip3 install -r requirements.txt
 
 frontend_install:
 	cd policycompass-frontend && npm install --python=$(GYPPYTHON_EXECUTABLE)
@@ -163,4 +166,4 @@ select_nginx_config:
 %: %.mako bin/mako-render
 	./bin/mako-render $< --var config_type=$(CONFIG_TYPE) > $@
 
-.PHONY: frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu elasticsearch_rebuildindex select_nginx_config
+.PHONY: test_utilities frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu elasticsearch_rebuildindex select_nginx_config
