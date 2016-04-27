@@ -15,4 +15,5 @@ carneades.log
 pip-selfcheck.json
 etc/supervisor.conf
 etc/mysupervisord.conf
+etc/fcmmanager_web.xml
 .idea

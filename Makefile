@@ -26,7 +26,7 @@ endif
 CONFIG_TYPE ?= dev
 
 # those files are rendered from mustache templates
-MAKO_TEMPLATES= etc/supervisord.conf
+MAKO_TEMPLATES= etc/supervisord.conf etc/fcmmanager_web.xml
 
 all: $(MAKO_TEMPLATES) test_utilities update_repros frontend_install postgres_init services_install services_pre_commit_hook fcmmanager_install select_nginx_config
 
@@ -149,9 +149,10 @@ else
 export POSTGRES_URI := postgresql://localhost:5432/pcompass
 endif
 
-fcmmanager_install:
+fcmmanager_install: etc/fcmmanager_web.xml
 	ln -sfT $(CATALINA_EXECUTABLE) ./bin/catalina.sh
 	sed 's#postgresql://localhost:5432/pcompass#$(POSTGRES_URI)#' policycompass-fcmmanager/src/main/resources/hibernate.cfg.template.xml > policycompass-fcmmanager/src/main/resources/hibernate.cfg.xml
+	cp  etc/fcmmanager_web.xml policycompass-fcmmanager/WebContent/WEB-INF/web.xml
 	cd policycompass-fcmmanager && mvn clean install
 
 fcmmanager_loaddata:
