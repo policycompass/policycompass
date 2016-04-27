@@ -7,7 +7,7 @@ git:
     submodules: false # Handle git submodules yourself
 before_install:
     - export DISPLAY=:10
-    - sudo Xvfb ${DISPLAY} -ac &
+    - sudo Xvfb ${DISPLAY} -ac +extension RANDR &
 notifications:
   email: false
 install:

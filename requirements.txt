@@ -6,7 +6,7 @@ pytest==2.6.0
 pytest-splinter==1.0.3
 repoze.lru==0.6
 requests==2.3.0
-selenium==2.42.1
+selenium==2.53.2
 splinter==0.6.0
 translationstring==1.1
 venusian==1.0

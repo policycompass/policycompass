@@ -21,6 +21,10 @@ DATABASES = {
 #     }
 # }
 
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+TEMPLATE_DEBUG = True
+
 ELASTICSEARCH_URL = 'http://localhost:9200/policycompass_search/'
 
 PC_SERVICES = {
