@@ -36,7 +36,7 @@ stderr_logfile = NONE
 % if config_type=="dev":
 command = ./bin/python manage.py runserver --noreload
 % else:
-command = ./bin/gunicorn -n policycompass-services policycompass_services.wsgi
+command = ./bin/gunicorn -n policycompass-services -w 4 policycompass_services.wsgi
 % endif
 directory = %(here)s/../policycompass-services
 priority = 10
