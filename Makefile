@@ -28,7 +28,7 @@ CONFIG_TYPE ?= dev
 # those files are rendered from mustache templates
 MAKO_TEMPLATES= etc/supervisord.conf etc/fcmmanager_web.xml
 
-all: $(MAKO_TEMPLATES) test_utilities update_repros frontend_install postgres_init services_install services_pre_commit_hook fcmmanager_install select_nginx_config
+all: $(MAKO_TEMPLATES) test_utilities update_repos frontend_install postgres_init services_install services_pre_commit_hook fcmmanager_install select_nginx_config
 
 
 #
@@ -63,7 +63,7 @@ install_elasticsearch_ubuntu: /etc/apt/sources.list.d/elasticsearch.list
 #
 
 # recursivly checkout all submodules master branches
-update_repros:
+update_repos:
 	git submodule update --init
 	git submodule foreach git checkout master
 	git submodule foreach git pull
@@ -167,4 +167,4 @@ select_nginx_config:
 %: %.mako bin/mako-render
 	./bin/mako-render $< --var config_type=$(CONFIG_TYPE) > $@
 
-.PHONY: test_utilities frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu elasticsearch_rebuildindex select_nginx_config
+.PHONY: test_utilities update_repos frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu elasticsearch_rebuildindex select_nginx_config
