@@ -86,6 +86,9 @@ frontend_install:
 	ln -sfT ../../etc/policycompass/$(CONFIG_TYPE)/frontend-config.js policycompass-frontend/app/config.js
 	echo '{"PC_SERVICES_URL": "http://localhost:8000", "FCM_SERVICES_URL": "http://localhost:10080", "ELASTIC_SEARCH_URL": "http://localhost:9200"}' > policycompass-frontend/development.json
 
+etc/secret_key:
+	cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1 > $@
+
 policycompass-services/bin/python3.4:
 	virtualenv --python=$(PYTHON_EXECUTABLE) policycompass-services
 
