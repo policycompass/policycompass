@@ -92,7 +92,7 @@ etc/secret_key:
 policycompass-services/bin/python3.4:
 	virtualenv --python=$(PYTHON_EXECUTABLE) policycompass-services
 
-services_install: policycompass-services/bin/python3.4
+services_install: policycompass-services/bin/python3.4 etc/secret_key
 	ln -sfT $(ELASTICSEARCH_EXECUTABLE) bin/elasticsearch
 	ln -sfT $(ELASTICSEARCH_INCLUDES) bin/elasticsearch.in.sh
 	policycompass-services/bin/pip3.4 install --upgrade wheel
