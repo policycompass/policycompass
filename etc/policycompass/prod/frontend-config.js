@@ -27,7 +27,9 @@ var policyCompassConfig = {
     'ELASTIC_INDEX_NAME' : 'policycompass_search',
     'ENABLE_ADHOCRACY': true,
     'ADHOCRACY_BACKEND_URL': 'https://adhocracy-prod.policycompass.eu/api',
-    'ADHOCRACY_FRONTEND_URL': 'https://adhocracy-prod.policycompass.eu'
+    'ADHOCRACY_FRONTEND_URL': 'https://adhocracy-prod.policycompass.eu',
+    'PIWIK_TRACKER_URL': '//piwik.policycompass.eu/',
+    'PIWIK_DOMAINS': ['*.policycompass.eu', 'policycompass.eu']
 };
 
 angular.module('pcApp.config', []).constant('API_CONF', policyCompassConfig);
