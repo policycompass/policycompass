@@ -33,7 +33,10 @@ var policyCompassConfig = {
     // UserState controller in index.html
     'ENABLE_ADHOCRACY': true,
     'ADHOCRACY_BACKEND_URL': 'http://localhost:6541',
-    'ADHOCRACY_FRONTEND_URL': 'http://localhost:6551'
+    'ADHOCRACY_FRONTEND_URL': 'http://localhost:6551',
+    'PIWIK_TRACKER_URL': '//piwik.policycompass.eu/',
+    'PIWIK_DOMAINS': ['*.policycompass.eu', 'policycompass.eu'],
+    'PIWIK_SITE_ID': 2
 };
 
 // Configuration for remote services
@@ -56,7 +59,10 @@ var remotePolicyCompassConfig = {
     'ELASTIC_INDEX_NAME' : 'policycompass_search',
     'ENABLE_ADHOCRACY': true,
     'ADHOCRACY_BACKEND_URL': 'https://adhocracy-frontend-stage.policycompass.eu/api',
-    'ADHOCRACY_FRONTEND_URL': 'https://adhocracy-frontend-stage.policycompass.eu'
+    'ADHOCRACY_FRONTEND_URL': 'https://adhocracy-frontend-stage.policycompass.eu',
+    'PIWIK_TRACKER_URL': '//piwik.policycompass.eu/',
+    'PIWIK_DOMAINS': ['*.policycompass.eu', 'policycompass.eu'],
+    'PIWIK_SITE_ID': 2
 };
 
 if(useRemoteServices == false) {

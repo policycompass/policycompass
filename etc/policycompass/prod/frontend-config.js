@@ -29,7 +29,8 @@ var policyCompassConfig = {
     'ADHOCRACY_BACKEND_URL': 'https://adhocracy-prod.policycompass.eu/api',
     'ADHOCRACY_FRONTEND_URL': 'https://adhocracy-prod.policycompass.eu',
     'PIWIK_TRACKER_URL': '//piwik.policycompass.eu/',
-    'PIWIK_DOMAINS': ['*.policycompass.eu', 'policycompass.eu']
+    'PIWIK_DOMAINS': ['*.policycompass.eu', 'policycompass.eu'],
+    'PIWIK_SITE_ID': 1
 };
 
 angular.module('pcApp.config', []).constant('API_CONF', policyCompassConfig);
