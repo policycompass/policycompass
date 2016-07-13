@@ -141,8 +141,12 @@ ifeq ($(POSTGRES_DEDICATED), true)
 		$(POSTGRES_BIN_PATH)/pg_ctl stop -D var/lib/postgres;\
 	fi
 else
-	psql -c "DO \$$body\$$ BEGIN IF NOT EXISTS ( SELECT * FROM pg_catalog.pg_user WHERE usename = 'pcompass') THEN CREATE USER pcompass WITH unencrypted password 'pcompass'; END IF; END \$$body\$$"
-	psql -c "DO \$$body\$$ BEGIN IF NOT EXISTS ( SELECT * FROM  pg_catalog.pg_database WHERE datname = 'pcompass') THEN CREATE DATABASE pcompass OWNER pcompass; END IF; END \$$body\$$"
+	if [ $$(psql -u $(POSTGRES_ADMIN) -Atc "SELECT count(*) FROM pg_catalog.pg_user WHERE usename = 'pcompass'") -eq 0 ]; then \
+		psql -c "CREATE USER pcompass WITH unencrypted password 'pcompass'"; \
+	fi
+	if [ $$(psql -u $(POSTGRES_ADMIN) -Atc "SELECT count(*) FROM pg_catalog.pg_database WHERE datname = 'pcompass'") -eq 0 ]; then \
+		psql -c "CREATE DATABASE pcompass OWNER pcompass"; \
+	fi
 endif
 
 export CATALINA_HOME := $(CURDIR)/var/lib/tomcat
