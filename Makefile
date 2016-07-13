@@ -5,6 +5,7 @@ ELASTICSEARCH_EXECUTABLE=/usr/share/elasticsearch/bin/elasticsearch
 ELASTICSEARCH_INCLUDES=/usr/share/elasticsearch/bin/elasticsearch.in.sh
 # should a postgres be started and where is the postgres executable
 POSTGRES_DEDICATED=true
+POSTGRES_ADMIN=${USER}
 ifeq ($(wildcard /usr/lib/postgresql/9.4),)
 	POSTGRES_BIN_PATH=/usr/lib/postgresql/9.3/bin
 else
@@ -141,10 +142,10 @@ ifeq ($(POSTGRES_DEDICATED), true)
 		$(POSTGRES_BIN_PATH)/pg_ctl stop -D var/lib/postgres;\
 	fi
 else
-	if [ $$(psql -u $(POSTGRES_ADMIN) -Atc "SELECT count(*) FROM pg_catalog.pg_user WHERE usename = 'pcompass'") -eq 0 ]; then \
+	if [ $$(psql -U $(POSTGRES_ADMIN) -Atc "SELECT count(*) FROM pg_catalog.pg_user WHERE usename = 'pcompass'") -eq 0 ]; then \
 		psql -c "CREATE USER pcompass WITH unencrypted password 'pcompass'"; \
 	fi
-	if [ $$(psql -u $(POSTGRES_ADMIN) -Atc "SELECT count(*) FROM pg_catalog.pg_database WHERE datname = 'pcompass'") -eq 0 ]; then \
+	if [ $$(psql -U $(POSTGRES_ADMIN) -Atc "SELECT count(*) FROM pg_catalog.pg_database WHERE datname = 'pcompass'") -eq 0 ]; then \
 		psql -c "CREATE DATABASE pcompass OWNER pcompass"; \
 	fi
 endif
