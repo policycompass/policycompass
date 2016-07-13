@@ -5,6 +5,7 @@ ELASTICSEARCH_EXECUTABLE=/usr/share/elasticsearch/bin/elasticsearch
 ELASTICSEARCH_INCLUDES=/usr/share/elasticsearch/bin/elasticsearch.in.sh
 # should a postgres be started and where is the postgres executable
 POSTGRES_DEDICATED=true
+POSTGRES_ADMIN=${USER}
 ifeq ($(wildcard /usr/lib/postgresql/9.4),)
 	POSTGRES_BIN_PATH=/usr/lib/postgresql/9.3/bin
 else
@@ -44,7 +45,7 @@ UBUNTU_PACKAGES= maven tomcat7 libxml2 libxml2-dev libxslt1.1 libxslt-dev libzip
                  postgresql ruby-compass
 
 /usr/bin/node:
-	ln -sfT /usr/bin/nodejs /usr/bin/node
+	ln -sf /usr/bin/nodejs /usr/bin/node
 
 install_deps_ubuntu:
 	apt-get -y update
@@ -83,7 +84,7 @@ frontend_install:
 	cd policycompass-frontend && node_modules/.bin/bower --config.interactive=false prune
 	cd policycompass-frontend && node_modules/.bin/bower --config.interactive=false install
 	cd policycompass-frontend && compass compile -e production
-	ln -sfT ../../etc/policycompass/$(CONFIG_TYPE)/frontend-config.js policycompass-frontend/app/config.js
+	ln -sf ../../etc/policycompass/$(CONFIG_TYPE)/frontend-config.js policycompass-frontend/app/config.js
 	echo '{"PC_SERVICES_URL": "http://localhost:8000", "FCM_SERVICES_URL": "http://localhost:10080", "ELASTIC_SEARCH_URL": "http://localhost:9200"}' > policycompass-frontend/development.json
 
 etc/secret_key:
@@ -93,11 +94,11 @@ policycompass-services/bin/python3.4:
 	virtualenv --python=$(PYTHON_EXECUTABLE) policycompass-services
 
 services_install: policycompass-services/bin/python3.4 etc/secret_key
-	ln -sfT $(ELASTICSEARCH_EXECUTABLE) bin/elasticsearch
-	ln -sfT $(ELASTICSEARCH_INCLUDES) bin/elasticsearch.in.sh
+	ln -sf $(ELASTICSEARCH_EXECUTABLE) bin/elasticsearch
+	ln -sf $(ELASTICSEARCH_INCLUDES) bin/elasticsearch.in.sh
 	policycompass-services/bin/pip3.4 install --upgrade wheel
-	policycompass-services/bin/pip3.4 install --download-cache cache/downloads -r policycompass-services/requirements.txt
-	ln -sfT ../../etc/policycompass/$(CONFIG_TYPE)/services-settings.py policycompass-services/config/settings.py
+	policycompass-services/bin/pip3.4 install -r policycompass-services/requirements.txt
+	ln -sf ../../etc/policycompass/$(CONFIG_TYPE)/services-settings.py policycompass-services/config/settings.py
 	cd policycompass-services && bin/python3.4 manage.py migrate
 	cd policycompass-services && bin/python3.4 manage.py loaddata datasets metrics indicators events references visualizations ags
 	if [ ! $(CONFIG_TYPE) = dev ]; then cd policycompass-services && bin/python3.4 manage.py collectstatic --noinput; fi
@@ -123,14 +124,14 @@ adhocracy3/bin/buildout: adhocracy3 adhocracy3/bin/python3.4 adhocracy3_git
 
 adhocracy3_install: adhocracy3/bin/buildout
 	cd adhocracy3 && bin/buildout -c buildout-pcompass.cfg
-	ln -sfT ../../etc/adhocracy/$(CONFIG_TYPE)/development.ini adhocracy3/etc/development.ini
-	ln -sfT ../../etc/adhocracy/$(CONFIG_TYPE)/frontend_development.ini adhocracy3/etc/frontend_development.ini
+	ln -sf ../../etc/adhocracy/$(CONFIG_TYPE)/development.ini adhocracy3/etc/development.ini
+	ln -sf ../../etc/adhocracy/$(CONFIG_TYPE)/frontend_development.ini adhocracy3/etc/frontend_development.ini
 
 adhocracy3_setup_resources:
 	cd adhocracy3 && bin/import_resources etc/development.ini ../etc/adhocracy/resources.json
 
 postgres_init:
-	ln -sfT $(POSTGRES_EXECUTABLE) bin/postgres
+	ln -sf $(POSTGRES_EXECUTABLE) bin/postgres
 ifeq ($(POSTGRES_DEDICATED), true)
 	if [ ! -f var/lib/postgres/PG_VERSION ]; then \
 		$(POSTGRES_BIN_PATH)/initdb var/lib/postgres &&\
@@ -141,8 +142,12 @@ ifeq ($(POSTGRES_DEDICATED), true)
 		$(POSTGRES_BIN_PATH)/pg_ctl stop -D var/lib/postgres;\
 	fi
 else
-	psql -c "create user pcompass with unencrypted password 'pcompass';" -U postgres
-	psql -c "create database pcompass owner pcompass;" -U postgres
+	if [ $$(psql -U $(POSTGRES_ADMIN) -Atc "SELECT count(*) FROM pg_catalog.pg_user WHERE usename = 'pcompass'") -eq 0 ]; then \
+		psql -c "CREATE USER pcompass WITH unencrypted password 'pcompass'"; \
+	fi
+	if [ $$(psql -U $(POSTGRES_ADMIN) -Atc "SELECT count(*) FROM pg_catalog.pg_database WHERE datname = 'pcompass'") -eq 0 ]; then \
+		psql -c "CREATE DATABASE pcompass OWNER pcompass"; \
+	fi
 endif
 
 export CATALINA_HOME := $(CURDIR)/var/lib/tomcat
@@ -153,7 +158,7 @@ export POSTGRES_URI := postgresql://localhost:5432/pcompass
 endif
 
 fcmmanager_install: etc/fcmmanager_web.xml
-	ln -sfT $(CATALINA_EXECUTABLE) ./bin/catalina.sh
+	ln -sf $(CATALINA_EXECUTABLE) ./bin/catalina.sh
 	sed 's#postgresql://localhost:5432/pcompass#$(POSTGRES_URI)#' policycompass-fcmmanager/src/main/resources/hibernate.cfg.template.xml > policycompass-fcmmanager/src/main/resources/hibernate.cfg.xml
 	cp  etc/fcmmanager_web.xml policycompass-fcmmanager/WebContent/WEB-INF/web.xml
 	cd policycompass-fcmmanager && mvn clean install
@@ -165,7 +170,7 @@ elasticsearch_rebuildindex:
 	curl -XPOST 'http://localhost:8000/api/v1/searchmanager/rebuildindex'
 
 select_nginx_config:
-	ln -sfT ./nginx/$(CONFIG_TYPE)/nginx.conf etc/nginx.conf
+	ln -sf ./nginx/$(CONFIG_TYPE)/nginx.conf etc/nginx.conf
 
 %: %.mako bin/mako-render
 	./bin/mako-render $< --var config_type=$(CONFIG_TYPE) > $@
