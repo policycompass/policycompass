@@ -26,7 +26,7 @@ def test_user_want_to_explore_news(browser):
 
 
 def visit_page(browser, url):
-    browser.visit('http://policycompass.eu')
+    browser.visit('http://project.policycompass.eu')
     browser.browser.click_link_by_partial_href('the-project')
 
 
