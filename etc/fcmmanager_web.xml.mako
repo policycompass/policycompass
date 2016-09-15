@@ -66,7 +66,7 @@
         % elif config_type=="prod":
         <env-entry-value>https://adhocracy-prod.policycompass.eu/api/principals/groups/gods/</env-entry-value>
         % else:
-        <env-entry-value>http://adhocracy-frontend-stage.policycompass.eu/api/principals/groups/gods/</env-entry-value>
+        <env-entry-value>https://adhocracy-frontend-stage.policycompass.eu/api/principals/groups/gods/</env-entry-value>
         % endif
     </env-entry>
 </web-app>
