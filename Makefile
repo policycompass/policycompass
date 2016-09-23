@@ -98,6 +98,8 @@ services_install: policycompass-services/bin/python3.4 etc/secret_key
 	ln -sf $(ELASTICSEARCH_INCLUDES) bin/elasticsearch.in.sh
 	policycompass-services/bin/pip3.4 install --upgrade wheel
 	policycompass-services/bin/pip3.4 install -r policycompass-services/requirements.txt
+	if [ ! $(CONFIG_TYPE) = dev ]; then policycompass-services/bin/pip3.4 install -r policycompass-services/requirements.prod.txt; fi
+	policycompass-services/bin/pip3.4 install -r policycompass-services/requirements.txt
 	ln -sf ../../etc/policycompass/$(CONFIG_TYPE)/services-settings.py policycompass-services/config/settings.py
 	cd policycompass-services && bin/python3.4 manage.py migrate
 	cd policycompass-services && bin/python3.4 manage.py loaddata datasets metrics indicators events references visualizations ags feedback-categories
