@@ -139,6 +139,7 @@ ifeq ($(POSTGRES_DEDICATED), true)
 		sleep 2 &&\
 		createuser -h localhost -p 5433 --no-superuser --no-createrole --no-createdb  pcompass &&\
 		createdb -h localhost -p 5433 -e pcompass -E UTF-8 --owner=pcompass &&\
+		createdb -h localhost -p 5433 -e pcompass_services -E UTF-8 --owner=pcompass &&\
 		$(POSTGRES_BIN_PATH)/pg_ctl stop -D var/lib/postgres;\
 	fi
 else
@@ -147,6 +148,7 @@ else
 	fi
 	if [ $$(psql -U $(POSTGRES_ADMIN) -Atc "SELECT count(*) FROM pg_catalog.pg_database WHERE datname = 'pcompass'") -eq 0 ]; then \
 		psql -c "CREATE DATABASE pcompass OWNER pcompass"; \
+		psql -c "CREATE DATABASE pcompass_services OWNER pcompass"; \
 	fi
 endif
 
