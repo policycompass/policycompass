@@ -34,7 +34,8 @@ PC_SERVICES = {
         'updateindexitem' : '/api/v1/searchmanager/updateindexitem',
         'deleteindexitem' : '/api/v1/searchmanager/deleteindexitem',
         'fcm_base_url': 'http://localhost:10080',
-        'adhocracy_api_base_url': 'https://adhocracy-frontend-stage.policycompass.eu/api'
+        'adhocracy_api_base_url': 'https://adhocracy-frontend-stage.policycompass.eu/api',
+        'eventminer_url': 'http://localhost:5000/extraction'
     },
     'external_resources': {
         'physical_path_phantomCapture': '/home/policycompass/policycompass/policycompass-services/apps/visualizationsmanager/phantomCapture/main.js',
