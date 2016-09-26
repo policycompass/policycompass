@@ -10,3 +10,6 @@
 [submodule "carneades"]
 	path = carneades
 	url = https://github.com/carneades/carneades.git
+[submodule "eventminer"]
+	path = eventminer
+	url = https://github.com/policycompass/eventminer.git

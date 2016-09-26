@@ -1,5 +1,6 @@
 
 PYTHON_EXECUTABLE=$(shell which python3.4)
+PYTHON2_EXECUTABLE=$(shell which python2.7)
 CATALINA_EXECUTABLE=/usr/share/tomcat7/bin/catalina.sh
 ELASTICSEARCH_EXECUTABLE=/usr/share/elasticsearch/bin/elasticsearch
 ELASTICSEARCH_INCLUDES=/usr/share/elasticsearch/bin/elasticsearch.in.sh
@@ -29,7 +30,7 @@ CONFIG_TYPE ?= dev
 # those files are rendered from mustache templates
 MAKO_TEMPLATES= etc/supervisord.conf etc/fcmmanager_web.xml
 
-all: $(MAKO_TEMPLATES) test_utilities update_repos frontend_install postgres_init services_install services_pre_commit_hook fcmmanager_install select_nginx_config
+all: $(MAKO_TEMPLATES) test_utilities update_repos frontend_install postgres_init services_install eventminer_install services_pre_commit_hook fcmmanager_install select_nginx_config
 
 
 #
@@ -39,10 +40,10 @@ all: $(MAKO_TEMPLATES) test_utilities update_repos frontend_install postgres_ini
 install_deps: install_deps_ubuntu install_elasticsearch_ubuntu /usr/bin/node
 
 # list of packages for ubuntu 14.04 lts
-UBUNTU_PACKAGES= maven tomcat7 libxml2 libxml2-dev libxslt1.1 libxslt-dev libzip2 python3 python3-pil python3-pip          \
-                 python-virtualenv python3-ipdb python3-pep8 pyflakes sqlite build-essential zlibc \
-                 curl file git ruby ruby-dev nodejs npm openjdk-7-jdk phantomjs supervisor nginx   \
-                 postgresql ruby-compass
+UBUNTU_PACKAGES= maven tomcat7 libxml2 libxml2-dev libxslt1.1 libxslt-dev libzip2 python3 python3-pil \
+		python3-pip python2.7 python-virtualenv python3-ipdb python3-pep8 pyflakes sqlite \
+		build-essential zlibc curl file git ruby ruby-dev nodejs npm openjdk-7-jdk \
+		phantomjs supervisor nginx postgresql ruby-compass
 
 /usr/bin/node:
 	ln -sf /usr/bin/nodejs /usr/bin/node
@@ -107,6 +108,12 @@ services_install: policycompass-services/bin/python3.4 etc/secret_key
 
 services_pre_commit_hook: etc/hooks/services_pre-commit
 	cp etc/hooks/services_pre-commit .git/modules/policycompass-services/hooks/pre-commit
+
+eventminer/bin/python2:
+	virtualenv --python=$(PYTHON2_EXECUTABLE) eventminer
+
+eventminer_install: eventminer/bin/python2
+	eventminer/bin/pip install -r eventminer/requirements.txt
 
 adhocracy3:
 	git clone https://github.com/liqd/adhocracy3.git
@@ -179,4 +186,4 @@ select_nginx_config:
 %: %.mako bin/mako-render
 	./bin/mako-render $< --var config_type=$(CONFIG_TYPE) > $@
 
-.PHONY: test_utilities update_repos frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu elasticsearch_rebuildindex select_nginx_config
+.PHONY: test_utilities update_repos frontend_install adhocracy3_git adhocracy3_install postgres_init fcmmanager_install fcmmanager_loaddata all install_deps install_elasticsearch_ubuntu install_deps_ubuntu elasticsearch_rebuildindex select_nginx_config eventminer_install

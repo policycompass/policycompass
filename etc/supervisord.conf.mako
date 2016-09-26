@@ -82,5 +82,13 @@ redirect_stderr = true
 stdout_logfile = %(here)s/../var/log/tomcat.log
 stderr_logfile = NONE
 
+[program:eventminer]
+command = ./bin/python flask_file.py run
+priority = 15
+redirect_stderr = true
+stdout_logfile = %(here)s/../var/log/eventminer.log
+stderr_logfile = NONE
+directory = %(here)s/../eventminer
+
 [group:policycompass]
-programs = policycompass-frontend, policycompass-services, elasticsearch, tomcat, postgres
+programs = policycompass-frontend, policycompass-services, elasticsearch, tomcat, postgres, eventminer
