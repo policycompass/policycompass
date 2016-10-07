@@ -125,7 +125,7 @@ adhocracy3_git: adhocracy3
 	git submodule update --init
 
 adhocracy3/bin/python3.4: adhocracy3
-	virtualenv --python=$(PYTHON_EXECUTABLE) adhocracy3
+	[ -f adhocracy3/bin/python3.4 ] || virtualenv --python=$(PYTHON_EXECUTABLE) adhocracy3
 
 adhocracy3/bin/buildout: adhocracy3 adhocracy3/bin/python3.4 adhocracy3_git
 	mkdir -p adhocracy3/eggs # needed since buildout sometimes fails to create egg
